@@ -14,36 +14,37 @@ import java.util.*;
 public class AuthService {
 
     @Autowired
-    private CustomerRepository customerRepo;
+    private CustomerRepository repo;
 
     @Autowired
     private VerificationTokenRepository tokenRepo;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private PasswordEncoder encoder;
 
     @Autowired
     private JwtUtil jwtUtil;
+
+    @Autowired
+    private EmailService emailService;
 
     private Map<String, String> otpStore = new HashMap<>();
 
     public ApiResponse register(CustomerDTO dto) {
 
-        if (customerRepo.existsById(dto.getEmailId())) {
-            throw new RuntimeException("User already exists");
-        }
+        if (repo.existsByEmailId(dto.getEmailId()))
+            throw new RuntimeException("User exists");
 
         Customer user = new Customer();
         user.setEmailId(dto.getEmailId());
         user.setName(dto.getName());
-        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        user.setPassword(encoder.encode(dto.getPassword()));
         user.setPhoneNumber(dto.getPhoneNumber());
         user.setAddress(dto.getAddress());
         user.setVerified(false);
 
-        customerRepo.save(user);
+        repo.save(user);
 
-        // Email token
         String token = UUID.randomUUID().toString();
 
         VerificationToken vt = new VerificationToken();
@@ -53,40 +54,42 @@ public class AuthService {
 
         tokenRepo.save(vt);
 
-        System.out.println("Verify: http://localhost:8081/auth/verify?token=" + token);
+        emailService.sendEmail(dto.getEmailId(), token);
 
         return new ApiResponse("Registered. Verify email.", true);
     }
 
     public String login(LoginRequest req) {
 
-        Customer user = customerRepo.findById(req.getEmail())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        Customer user = repo.findById(req.getEmail())
+                .orElseThrow(() -> new RuntimeException("Not found"));
 
-        if (!passwordEncoder.matches(req.getPassword(), user.getPassword())) {
-            throw new RuntimeException("Invalid password");
-        }
+        if (!encoder.matches(req.getPassword(), user.getPassword()))
+            throw new RuntimeException("Wrong password");
 
-        if (!user.isVerified()) {
-            throw new RuntimeException("Email not verified");
-        }
+        if (!user.isVerified())
+            throw new RuntimeException("Verify email first");
 
         return jwtUtil.generateToken(user.getEmailId());
     }
 
     public String verifyEmail(String token) {
+
         VerificationToken vt = tokenRepo.findByToken(token)
                 .orElseThrow(() -> new RuntimeException("Invalid token"));
 
-        Customer user = customerRepo.findById(vt.getEmail()).get();
+        if (vt.getExpiryDate().before(new Date()))
+            throw new RuntimeException("Expired");
+
+        Customer user = repo.findById(vt.getEmail()).get();
         user.setVerified(true);
+        repo.save(user);
 
-        customerRepo.save(user);
+        tokenRepo.delete(vt);
 
-        return "Email verified";
+        return "Verified";
     }
 
-    // OTP
     public String sendOtp(String phone) {
         String otp = String.valueOf(new Random().nextInt(900000) + 100000);
         otpStore.put(phone, otp);

@@ -2,7 +2,6 @@ package com.infy.ekart.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-
 import java.util.Date;
 
 @Entity
@@ -10,7 +9,7 @@ import java.util.Date;
 public class VerificationToken {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String email;

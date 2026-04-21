@@ -2,6 +2,7 @@ package com.infy.ekart.controller;
 
 import com.infy.ekart.dto.*;
 import com.infy.ekart.service.AuthService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +14,7 @@ public class AuthController {
     private AuthService service;
 
     @PostMapping("/register")
-    public ApiResponse register(@RequestBody CustomerDTO dto) {
+    public ApiResponse register(@Valid @RequestBody CustomerDTO dto) {
         return service.register(dto);
     }
 
@@ -27,13 +28,13 @@ public class AuthController {
         return service.verifyEmail(token);
     }
 
-    @PostMapping("/send-otp")
+    @PostMapping("/otp")
     public String sendOtp(@RequestParam String phone) {
         return service.sendOtp(phone);
     }
 
-    @PostMapping("/verify-otp")
-    public String verifyOtp(@RequestParam String phone, @RequestParam String otp) {
-        return service.verifyOtp(phone, otp) ? "Verified" : "Invalid OTP";
+    @PostMapping("/otp/verify")
+    public boolean verifyOtp(@RequestParam String phone, @RequestParam String otp) {
+        return service.verifyOtp(phone, otp);
     }
 }
