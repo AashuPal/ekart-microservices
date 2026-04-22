@@ -1,9 +1,13 @@
 package com.infy.ekart.service;
 
-import com.infy.ekart.dto.*;
+import com.infy.ekart.dto.ApiResponse;
+import com.infy.ekart.dto.CustomerDTO;
+import com.infy.ekart.dto.LoginRequest;
 import com.infy.ekart.entity.*;
-import com.infy.ekart.repository.*;
+import com.infy.ekart.repository.CustomerRepository;
+import com.infy.ekart.repository.VerificationTokenRepository;
 import com.infy.ekart.security.JwtUtil;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

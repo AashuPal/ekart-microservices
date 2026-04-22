@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import com.infy.ekart.entity.Customer;
 
-@Repository
+
 public interface CustomerRepository extends JpaRepository<Customer, String> {
 	boolean existsByEmailId(String emailId);
 }

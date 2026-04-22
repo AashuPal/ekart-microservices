@@ -37,4 +37,5 @@ public class AuthController {
     public boolean verifyOtp(@RequestParam String phone, @RequestParam String otp) {
         return service.verifyOtp(phone, otp);
     }
+    
 }
