@@ -36,6 +36,12 @@
 			<groupId>jakarta.mail</groupId>
 			<artifactId>jakarta.mail-api</artifactId>
 		</dependency>
+		
+		<!-- Spring Boot Mail Starter (RECOMMENDED) -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-mail</artifactId>
+</dependency>
 
 		<!-- JPA -->
 		<dependency>

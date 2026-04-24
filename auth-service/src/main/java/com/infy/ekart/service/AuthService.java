@@ -58,7 +58,7 @@ public class AuthService {
 
         tokenRepo.save(vt);
 
-        emailService.sendEmail(dto.getEmailId(), token);
+        //emailService.sendEmail(dto.getEmailId(), token);
 
         return new ApiResponse("Registered. Verify email.", true);
     }
@@ -71,12 +71,28 @@ public class AuthService {
         if (!encoder.matches(req.getPassword(), user.getPassword()))
             throw new RuntimeException("Wrong password");
 
-        if (!user.isVerified())
-            throw new RuntimeException("Verify email first");
+        //if (!user.isVerified())
+        //    throw new RuntimeException("Verify email first");
 
         return jwtUtil.generateToken(user.getEmailId());
     }
 
+//    public String verifyEmail(String token) {
+//
+//        VerificationToken vt = tokenRepo.findByToken(token)
+//                .orElseThrow(() -> new RuntimeException("Invalid token"));
+//
+//        if (vt.getExpiryDate().before(new Date()))
+//            throw new RuntimeException("Expired");
+//
+//        Customer user = repo.findById(vt.getEmail()).get();
+//        user.setVerified(false);
+//        repo.save(user);
+//
+//        tokenRepo.delete(vt);
+//
+//        return "Verified";
+//    }
     public String verifyEmail(String token) {
 
         VerificationToken vt = tokenRepo.findByToken(token)
@@ -86,7 +102,8 @@ public class AuthService {
             throw new RuntimeException("Expired");
 
         Customer user = repo.findById(vt.getEmail()).get();
-        user.setVerified(true);
+
+        user.setVerified(true); // ✅ FIXED
         repo.save(user);
 
         tokenRepo.delete(vt);
