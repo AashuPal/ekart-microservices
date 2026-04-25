@@ -1,0 +1,111 @@
+-- Cart Service Database Schema
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+-- Enum Types
+CREATE TYPE cart_status AS ENUM ('ACTIVE', 'ABANDONED', 'CONVERTED', 'EXPIRED');
+CREATE TYPE reservation_status AS ENUM ('RESERVED', 'RELEASED', 'EXPIRED', 'CONVERTED');
+CREATE TYPE audit_action AS ENUM ('CREATE', 'UPDATE', 'DELETE', 'MERGE', 'EXPIRED');
+CREATE TYPE discount_type AS ENUM ('PERCENTAGE', 'FIXED_AMOUNT', 'BUY_X_GET_Y');
+
+-- Main Cart Table
+CREATE TABLE cart (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id UUID,
+    session_id UUID,
+    status cart_status DEFAULT 'ACTIVE',
+    version INTEGER DEFAULT 1,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    expires_at TIMESTAMP WITH TIME ZONE,
+    metadata JSONB DEFAULT '{}',
+    CONSTRAINT valid_user_or_session CHECK (
+        (user_id IS NOT NULL AND session_id IS NULL) OR 
+        (user_id IS NULL AND session_id IS NOT NULL)
+    )
+);
+
+-- Cart Items Table
+CREATE TABLE cart_item (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    cart_id UUID NOT NULL REFERENCES cart(id) ON DELETE CASCADE,
+    product_id UUID NOT NULL,
+    sku_id UUID NOT NULL,
+    quantity INTEGER NOT NULL CHECK (quantity > 0),
+    unit_price DECIMAL(10,2) NOT NULL,
+    total_price DECIMAL(10,2) GENERATED ALWAYS AS (quantity * unit_price) STORED,
+    added_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    metadata JSONB DEFAULT '{}',
+    CONSTRAINT unique_cart_product UNIQUE (cart_id, sku_id)
+);
+
+-- Product Reservation Table
+CREATE TABLE product_reservation (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    cart_item_id UUID NOT NULL REFERENCES cart_item(id) ON DELETE CASCADE,
+    product_id UUID NOT NULL,
+    quantity_reserved INTEGER NOT NULL,
+    reservation_expiry TIMESTAMP WITH TIME ZONE NOT NULL,
+    status reservation_status DEFAULT 'RESERVED',
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Cart Audit Log
+CREATE TABLE cart_audit_log (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    cart_id UUID NOT NULL,
+    action audit_action NOT NULL,
+    field_changed VARCHAR(100),
+    old_value JSONB,
+    new_value JSONB,
+    timestamp TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    performed_by UUID
+);
+
+-- Cart Promotion
+CREATE TABLE cart_promotion (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    cart_id UUID NOT NULL REFERENCES cart(id) ON DELETE CASCADE,
+    coupon_code VARCHAR(50),
+    discount_amount DECIMAL(10,2) NOT NULL,
+    discount_type discount_type NOT NULL,
+    applied_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    expires_at TIMESTAMP WITH TIME ZONE,
+    status VARCHAR(20) DEFAULT 'ACTIVE'
+);
+
+-- Abandoned Cart Tracking
+CREATE TABLE abandoned_cart (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    cart_id UUID NOT NULL REFERENCES cart(id) ON DELETE CASCADE,
+    user_id UUID,
+    email_sent BOOLEAN DEFAULT FALSE,
+    last_reminder_at TIMESTAMP WITH TIME ZONE,
+    recovery_url TEXT,
+    status VARCHAR(20) DEFAULT 'PENDING',
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Cart Configuration
+CREATE TABLE cart_configuration (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id UUID UNIQUE,
+    max_items_per_cart INTEGER DEFAULT 50,
+    cart_expiry_hours INTEGER DEFAULT 24,
+    reservation_timeout_min INTEGER DEFAULT 15,
+    allowed_payment_methods JSONB DEFAULT '["CREDIT_CARD", "DEBIT_CARD", "PAYPAL"]',
+    country_code VARCHAR(3) DEFAULT 'US',
+    currency_code VARCHAR(3) DEFAULT 'USD'
+);
+
+-- Indexes for performance
+CREATE INDEX idx_cart_user_id ON cart(user_id);
+CREATE INDEX idx_cart_session_id ON cart(session_id);
+CREATE INDEX idx_cart_status ON cart(status);
+CREATE INDEX idx_cart_expires_at ON cart(expires_at);
+CREATE INDEX idx_cart_item_cart_id ON cart_item(cart_id);
+CREATE INDEX idx_cart_item_product_id ON cart_item(product_id);
+CREATE INDEX idx_cart_item_sku_id ON cart_item(sku_id);
+CREATE INDEX idx_product_reservation_expiry ON product_reservation(reservation_expiry);
+CREATE INDEX idx_cart_audit_cart_id ON cart_audit_log(cart_id);
+CREATE INDEX idx_abandoned_cart_status ON abandoned_cart(status);
