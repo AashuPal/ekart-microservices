@@ -3,39 +3,47 @@ package com.infy.ekart.controller;
 import com.infy.ekart.dto.*;
 import com.infy.ekart.service.AuthService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin(origins = "http://localhost:5173")
 public class AuthController {
 
-    @Autowired
-    private AuthService service;
+    private final AuthService service;
+
+    public AuthController(AuthService service) {
+        this.service = service;
+    }
 
     @PostMapping("/register")
-    public ApiResponse register(@Valid @RequestBody CustomerDTO dto) {
-        return service.register(dto);
+    public ResponseEntity<ApiResponse> register(@Valid @RequestBody CustomerDTO dto) {
+        ApiResponse response = service.register(dto);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginRequest req) {
-        return service.login(req);
+    public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest req) {
+        LoginResponse response = service.login(req);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/verify")
-    public String verify(@RequestParam String token) {
-        return service.verifyEmail(token);
+    public ResponseEntity<String> verify(@RequestParam String token) {
+        String result = service.verifyEmail(token);
+        return ResponseEntity.ok(result);
     }
 
     @PostMapping("/otp")
-    public String sendOtp(@RequestParam String phone) {
-        return service.sendOtp(phone);
+    public ResponseEntity<String> sendOtp(@RequestParam String phone) {
+        String result = service.sendOtp(phone);
+        return ResponseEntity.ok(result);
     }
 
     @PostMapping("/otp/verify")
-    public boolean verifyOtp(@RequestParam String phone, @RequestParam String otp) {
-        return service.verifyOtp(phone, otp);
+    public ResponseEntity<Boolean> verifyOtp(@RequestParam String phone, @RequestParam String otp) {
+        boolean result = service.verifyOtp(phone, otp);
+        return ResponseEntity.ok(result);
     }
-    
 }

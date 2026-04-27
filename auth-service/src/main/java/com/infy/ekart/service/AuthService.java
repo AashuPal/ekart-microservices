@@ -1,14 +1,12 @@
 package com.infy.ekart.service;
 
-import com.infy.ekart.dto.ApiResponse;
-import com.infy.ekart.dto.CustomerDTO;
-import com.infy.ekart.dto.LoginRequest;
+import com.infy.ekart.dto.*;
 import com.infy.ekart.entity.*;
 import com.infy.ekart.repository.CustomerRepository;
 import com.infy.ekart.repository.VerificationTokenRepository;
 import com.infy.ekart.security.JwtUtil;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,27 +15,31 @@ import java.util.*;
 @Service
 public class AuthService {
 
-    @Autowired
-    private CustomerRepository repo;
+    private static final Logger log = LoggerFactory.getLogger(AuthService.class);
 
-    @Autowired
-    private VerificationTokenRepository tokenRepo;
+    private final CustomerRepository repo;
+    private final VerificationTokenRepository tokenRepo;
+    private final PasswordEncoder encoder;
+    private final JwtUtil jwtUtil;
+    private final EmailService emailService;
+    private final Map<String, String> otpStore = new HashMap<>();
 
-    @Autowired
-    private PasswordEncoder encoder;
-
-    @Autowired
-    private JwtUtil jwtUtil;
-
-    @Autowired
-    private EmailService emailService;
-
-    private Map<String, String> otpStore = new HashMap<>();
+    public AuthService(CustomerRepository repo,
+                       VerificationTokenRepository tokenRepo,
+                       PasswordEncoder encoder,
+                       JwtUtil jwtUtil,
+                       EmailService emailService) {
+        this.repo = repo;
+        this.tokenRepo = tokenRepo;
+        this.encoder = encoder;
+        this.jwtUtil = jwtUtil;
+        this.emailService = emailService;
+    }
 
     public ApiResponse register(CustomerDTO dto) {
-
-        if (repo.existsByEmailId(dto.getEmailId()))
-            throw new RuntimeException("User exists");
+        if (repo.findByEmailId(dto.getEmailId()).isPresent()) {
+            throw new RuntimeException("User already exists");
+        }
 
         Customer user = new Customer();
         user.setEmailId(dto.getEmailId());
@@ -58,66 +60,65 @@ public class AuthService {
 
         tokenRepo.save(vt);
 
-        //emailService.sendEmail(dto.getEmailId(), token);
-
-        return new ApiResponse("Registered. Verify email.", true);
+        log.info("User registered: {}", dto.getEmailId());
+        return new ApiResponse("Registered successfully. Please verify your email.", true);
     }
 
-    public String login(LoginRequest req) {
+    public LoginResponse login(LoginRequest req) {
+        Customer user = repo.findByEmailId(req.email())
+            .orElseThrow(() -> new RuntimeException("Invalid email or password"));
 
-        Customer user = repo.findById(req.getEmail())
-                .orElseThrow(() -> new RuntimeException("Not found"));
+        if (!encoder.matches(req.password(), user.getPassword())) {
+            throw new RuntimeException("Invalid email or password");
+        }
 
-        if (!encoder.matches(req.getPassword(), user.getPassword()))
-            throw new RuntimeException("Wrong password");
+        // Generate JWT token
+        String token = jwtUtil.generateToken(user.getEmailId(), user.getName());
 
-        //if (!user.isVerified())
-        //    throw new RuntimeException("Verify email first");
+        log.info("User logged in: {}", req.email());
 
-        return jwtUtil.generateToken(user.getEmailId());
+        // ✅ FIXED: Return proper LoginResponse with actual values
+        return new LoginResponse(
+            token,                  // token
+            user.getEmailId(),      // email
+            user.getName(),         // name
+            user.getPhoneNumber(),  // phoneNumber
+            3600                    // expiresIn (1 hour)
+        );
     }
 
-//    public String verifyEmail(String token) {
-//
-//        VerificationToken vt = tokenRepo.findByToken(token)
-//                .orElseThrow(() -> new RuntimeException("Invalid token"));
-//
-//        if (vt.getExpiryDate().before(new Date()))
-//            throw new RuntimeException("Expired");
-//
-//        Customer user = repo.findById(vt.getEmail()).get();
-//        user.setVerified(false);
-//        repo.save(user);
-//
-//        tokenRepo.delete(vt);
-//
-//        return "Verified";
-//    }
     public String verifyEmail(String token) {
-
         VerificationToken vt = tokenRepo.findByToken(token)
-                .orElseThrow(() -> new RuntimeException("Invalid token"));
+            .orElseThrow(() -> new RuntimeException("Invalid verification token"));
 
-        if (vt.getExpiryDate().before(new Date()))
-            throw new RuntimeException("Expired");
+        if (vt.getExpiryDate().before(new Date())) {
+            throw new RuntimeException("Verification token has expired");
+        }
 
-        Customer user = repo.findById(vt.getEmail()).get();
+        Customer user = repo.findByEmailId(vt.getEmail())
+            .orElseThrow(() -> new RuntimeException("User not found"));
 
-        user.setVerified(true); // ✅ FIXED
+        user.setVerified(true);
         repo.save(user);
-
         tokenRepo.delete(vt);
 
-        return "Verified";
+        log.info("Email verified for: {}", vt.getEmail());
+        return "Email verified successfully";
     }
 
     public String sendOtp(String phone) {
-        String otp = String.valueOf(new Random().nextInt(900000) + 100000);
+        String otp = String.format("%06d", new Random().nextInt(900000) + 100000);
         otpStore.put(phone, otp);
-        return "OTP: " + otp;
+        log.info("OTP sent to {}: {}", phone, otp);
+        return "OTP sent successfully: " + otp;
     }
 
     public boolean verifyOtp(String phone, String otp) {
-        return otp.equals(otpStore.get(phone));
+        String storedOtp = otpStore.get(phone);
+        if (storedOtp != null && storedOtp.equals(otp)) {
+            otpStore.remove(phone);
+            return true;
+        }
+        return false;
     }
 }

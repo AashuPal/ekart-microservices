@@ -46,8 +46,8 @@ public class Customer {
 		return phoneNumber;
 	}
 
-	public void setPhoneNumber(Long phoneNumber) {
-		this.phoneNumber = phoneNumber;
+	public void setPhoneNumber(Long string) {
+		this.phoneNumber = string;
 	}
 
 	public String getAddress() {

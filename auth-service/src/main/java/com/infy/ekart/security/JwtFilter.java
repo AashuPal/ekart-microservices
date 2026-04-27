@@ -1,59 +1,51 @@
 package com.infy.ekart.security;
-
-import java.io.IOException;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
-import org.springframework.web.filter.OncePerRequestFilter;
-
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import java.io.IOException;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private JwtUtil jwtUtil;
+    private final JwtUtil jwtUtil;
 
-    @Autowired
-    private CustomUserDetailsService userService;
+    // Constructor injection (better than @Autowired on field)
+    public JwtFilter(JwtUtil jwtUtil) {
+        this.jwtUtil = jwtUtil;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain chain)
-            throws ServletException, IOException {
+                                     HttpServletResponse response,
+                                     FilterChain filterChain) throws ServletException, IOException {
+        
+        String authHeader = request.getHeader("Authorization");
+        String requestURI = request.getRequestURI();
 
-        String header = request.getHeader("Authorization");
+        // Skip public endpoints
+        if (requestURI.startsWith("/auth/") || 
+            requestURI.startsWith("/swagger-ui") || 
+            requestURI.startsWith("/v3/api-docs")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
-        if (header != null && header.startsWith("Bearer ")) {
-
-            String token = header.substring(7);
-
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            String token = authHeader.substring(7);
             try {
-                String email = jwtUtil.extractEmail(token);
-
-                if (email != null &&
-                    SecurityContextHolder.getContext().getAuthentication() == null &&
-                    jwtUtil.validateToken(token)) {
-
-                    var userDetails = userService.loadUserByUsername(email);
-
-                    UsernamePasswordAuthenticationToken auth =
-                            new UsernamePasswordAuthenticationToken(
-                                    userDetails, null, userDetails.getAuthorities());
-
-                    SecurityContextHolder.getContext().setAuthentication(auth);
-                }
+                String email = jwtUtil.getEmailFromToken(token);
+                request.setAttribute("email", email);
             } catch (Exception e) {
-                System.out.println("Invalid JWT");
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.getWriter().write("Invalid token");
+                return;
             }
         }
 
-        chain.doFilter(request, response);
+        filterChain.doFilter(request, response);
     }
 }

@@ -1,5 +1,11 @@
 package com.infy.ekart.cartservice.dto.response;
 
-public class CartSummaryResponse {
+import java.math.BigDecimal;
 
-}
+public record CartSummaryResponse(
+    String cartId,
+    Integer totalItems,
+    BigDecimal subtotal,
+    BigDecimal discount,
+    BigDecimal totalAmount
+) {}
