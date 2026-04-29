@@ -1,3 +1,53 @@
+server:
+  port: 8086
+
 spring:
   application:
     name: order-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/ekart_order_service?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    open-in-view: false
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
+
+eureka:
+  client:
+    enabled: false
+
+# Springdoc OpenAPI
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+    operationsSorter: method
+    tagsSorter: alpha
+    try-it-out-enabled: true
+  packages-to-scan: com.infy.ekart
+  show-actuator: false
+
+# Logging
+logging:
+  file:
+    path: logs/
+    name: logs/order-service.log
+  logback:
+    rollingpolicy:
+      max-file-size: 10MB
+      max-history: 30
+  level:
+    root: INFO
+    com.infy.ekart: DEBUG
+    org.hibernate.SQL: WARN
+  pattern:
+    console: "%d{HH:mm:ss.SSS} %clr([%X{requestId:-}]){cyan} %-5level %logger{20} - %msg%n"

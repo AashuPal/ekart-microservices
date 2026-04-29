@@ -1,0 +1,258 @@
+2026-04-29T06:55:03.153+05:30  INFO 21784 --- [auth-service] [restartedMain] com.infy.ekart.AuthServiceApplication    : Starting AuthServiceApplication using Java 21.0.9 with PID 21784 (G:\InfosysProject\Ecommerce\Ecommerce-Backend\auth-service\target\classes started by Aashu Pal in G:\InfosysProject\Ecommerce\Ecommerce-Backend\auth-service)
+2026-04-29T06:55:03.155+05:30 DEBUG 21784 --- [auth-service] [restartedMain] com.infy.ekart.AuthServiceApplication    : Running with Spring Boot v3.3.5, Spring v6.1.14
+2026-04-29T06:55:03.157+05:30  INFO 21784 --- [auth-service] [restartedMain] com.infy.ekart.AuthServiceApplication    : No active profile set, falling back to 1 default profile: "default"
+2026-04-29T06:55:03.214+05:30  INFO 21784 --- [auth-service] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-04-29T06:55:03.223+05:30  INFO 21784 --- [auth-service] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-04-29T06:55:04.348+05:30  INFO 21784 --- [auth-service] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-04-29T06:55:04.350+05:30  INFO 21784 --- [auth-service] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-04-29T06:55:04.491+05:30  INFO 21784 --- [auth-service] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 133 ms. Found 2 JPA repository interfaces.
+2026-04-29T06:55:04.515+05:30  INFO 21784 --- [auth-service] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-04-29T06:55:04.517+05:30  INFO 21784 --- [auth-service] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-04-29T06:55:04.532+05:30  INFO 21784 --- [auth-service] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.infy.ekart.repository.CustomerRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-04-29T06:55:04.532+05:30  INFO 21784 --- [auth-service] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.infy.ekart.repository.VerificationTokenRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-04-29T06:55:04.532+05:30  INFO 21784 --- [auth-service] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 6 ms. Found 0 Redis repository interfaces.
+2026-04-29T06:55:04.835+05:30  INFO 21784 --- [auth-service] [restartedMain] o.s.cloud.context.scope.GenericScope     : BeanFactory id=5bd3ec41-93a4-3c9f-bee3-ebc0644f59d4
+2026-04-29T06:55:04.978+05:30  WARN 21784 --- [auth-service] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.cloud.client.loadbalancer.LoadBalancerAutoConfiguration$DeferringLoadBalancerInterceptorConfig' of type [org.springframework.cloud.client.loadbalancer.LoadBalancerAutoConfiguration$DeferringLoadBalancerInterceptorConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [lbRestClientPostProcessor] is declared through a non-static factory method on that class; consider declaring it as static instead.
+2026-04-29T06:55:04.980+05:30  WARN 21784 --- [auth-service] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'deferringLoadBalancerInterceptor' of type [org.springframework.cloud.client.loadbalancer.DeferringLoadBalancerInterceptor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected/applied to a currently created BeanPostProcessor [lbRestClientPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies/advisors. If this bean does not have to be post-processed, declare it with ROLE_INFRASTRUCTURE.
+2026-04-29T06:55:05.359+05:30  INFO 21784 --- [auth-service] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2026-04-29T06:55:05.372+05:30  INFO 21784 --- [auth-service] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-04-29T06:55:05.374+05:30  INFO 21784 --- [auth-service] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.31]
+2026-04-29T06:55:05.441+05:30  INFO 21784 --- [auth-service] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-04-29T06:55:05.441+05:30  INFO 21784 --- [auth-service] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2218 ms
+2026-04-29T06:55:05.479+05:30  INFO 21784 --- [auth-service] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-04-29T06:55:05.694+05:30  INFO 21784 --- [auth-service] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@74e0695b
+2026-04-29T06:55:05.699+05:30  INFO 21784 --- [auth-service] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-04-29T06:55:05.726+05:30  INFO 21784 --- [auth-service] [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:mysql://localhost:3306/ekart_auth_service?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC'
+2026-04-29T06:55:05.789+05:30 DEBUG 21784 --- [auth-service] [restartedMain] com.infy.ekart.security.JwtFilter        : Filter 'jwtFilter' configured for use
+2026-04-29T06:55:05.882+05:30  INFO 21784 --- [auth-service] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-04-29T06:55:05.941+05:30  INFO 21784 --- [auth-service] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
+2026-04-29T06:55:05.982+05:30  INFO 21784 --- [auth-service] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-04-29T06:55:06.303+05:30  INFO 21784 --- [auth-service] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-04-29T06:55:06.391+05:30  WARN 21784 --- [auth-service] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-04-29T06:55:07.311+05:30  INFO 21784 --- [auth-service] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-04-29T06:55:07.701+05:30  INFO 21784 --- [auth-service] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-04-29T06:55:08.219+05:30  WARN 21784 --- [auth-service] [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'authController' defined in file [G:\InfosysProject\Ecommerce\Ecommerce-Backend\auth-service\target\classes\com\infy\ekart\controller\AuthController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'authService' defined in file [G:\InfosysProject\Ecommerce\Ecommerce-Backend\auth-service\target\classes\com\infy\ekart\service\AuthService.class]: Unsatisfied dependency expressed through constructor parameter 4: Error creating bean with name 'emailService': Unsatisfied dependency expressed through field 'mailSender': No qualifying bean of type 'org.springframework.mail.javamail.JavaMailSender' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+2026-04-29T06:55:08.220+05:30  INFO 21784 --- [auth-service] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-04-29T06:55:08.223+05:30  INFO 21784 --- [auth-service] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-04-29T06:55:08.229+05:30  INFO 21784 --- [auth-service] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-04-29T06:55:08.232+05:30  INFO 21784 --- [auth-service] [restartedMain] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2026-04-29T06:55:08.247+05:30  INFO 21784 --- [auth-service] [restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-04-29T06:55:08.270+05:30 ERROR 21784 --- [auth-service] [restartedMain] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Field mailSender in com.infy.ekart.service.EmailService required a bean of type 'org.springframework.mail.javamail.JavaMailSender' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'org.springframework.mail.javamail.JavaMailSender' in your configuration.
+
+2026-04-29T07:00:03.151+05:30  INFO 20224 --- [auth-service] [restartedMain] com.infy.ekart.AuthServiceApplication    : Starting AuthServiceApplication using Java 21.0.9 with PID 20224 (G:\InfosysProject\Ecommerce\Ecommerce-Backend\auth-service\target\classes started by Aashu Pal in G:\InfosysProject\Ecommerce\Ecommerce-Backend\auth-service)
+2026-04-29T07:00:03.155+05:30 DEBUG 20224 --- [auth-service] [restartedMain] com.infy.ekart.AuthServiceApplication    : Running with Spring Boot v3.3.5, Spring v6.1.14
+2026-04-29T07:00:03.156+05:30  INFO 20224 --- [auth-service] [restartedMain] com.infy.ekart.AuthServiceApplication    : No active profile set, falling back to 1 default profile: "default"
+2026-04-29T07:00:03.211+05:30  INFO 20224 --- [auth-service] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-04-29T07:00:03.212+05:30  INFO 20224 --- [auth-service] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-04-29T07:00:04.340+05:30  INFO 20224 --- [auth-service] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-04-29T07:00:04.342+05:30  INFO 20224 --- [auth-service] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-04-29T07:00:04.489+05:30  INFO 20224 --- [auth-service] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 140 ms. Found 2 JPA repository interfaces.
+2026-04-29T07:00:04.507+05:30  INFO 20224 --- [auth-service] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-04-29T07:00:04.509+05:30  INFO 20224 --- [auth-service] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-04-29T07:00:04.523+05:30  INFO 20224 --- [auth-service] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.infy.ekart.repository.CustomerRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-04-29T07:00:04.523+05:30  INFO 20224 --- [auth-service] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.infy.ekart.repository.VerificationTokenRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-04-29T07:00:04.523+05:30  INFO 20224 --- [auth-service] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 6 ms. Found 0 Redis repository interfaces.
+2026-04-29T07:00:04.817+05:30  INFO 20224 --- [auth-service] [restartedMain] o.s.cloud.context.scope.GenericScope     : BeanFactory id=5bd3ec41-93a4-3c9f-bee3-ebc0644f59d4
+2026-04-29T07:00:04.958+05:30  WARN 20224 --- [auth-service] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.cloud.client.loadbalancer.LoadBalancerAutoConfiguration$DeferringLoadBalancerInterceptorConfig' of type [org.springframework.cloud.client.loadbalancer.LoadBalancerAutoConfiguration$DeferringLoadBalancerInterceptorConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [lbRestClientPostProcessor] is declared through a non-static factory method on that class; consider declaring it as static instead.
+2026-04-29T07:00:04.960+05:30  WARN 20224 --- [auth-service] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'deferringLoadBalancerInterceptor' of type [org.springframework.cloud.client.loadbalancer.DeferringLoadBalancerInterceptor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected/applied to a currently created BeanPostProcessor [lbRestClientPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies/advisors. If this bean does not have to be post-processed, declare it with ROLE_INFRASTRUCTURE.
+2026-04-29T07:00:05.331+05:30  INFO 20224 --- [auth-service] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2026-04-29T07:00:05.347+05:30  INFO 20224 --- [auth-service] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-04-29T07:00:05.347+05:30  INFO 20224 --- [auth-service] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.31]
+2026-04-29T07:00:05.416+05:30  INFO 20224 --- [auth-service] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-04-29T07:00:05.416+05:30  INFO 20224 --- [auth-service] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2203 ms
+2026-04-29T07:00:05.455+05:30  INFO 20224 --- [auth-service] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-04-29T07:00:05.666+05:30  INFO 20224 --- [auth-service] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@45f75a02
+2026-04-29T07:00:05.671+05:30  INFO 20224 --- [auth-service] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-04-29T07:00:05.702+05:30  INFO 20224 --- [auth-service] [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:mysql://localhost:3306/ekart_auth_service?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC'
+2026-04-29T07:00:05.762+05:30 DEBUG 20224 --- [auth-service] [restartedMain] com.infy.ekart.security.JwtFilter        : Filter 'jwtFilter' configured for use
+2026-04-29T07:00:05.847+05:30  INFO 20224 --- [auth-service] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-04-29T07:00:05.903+05:30  INFO 20224 --- [auth-service] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
+2026-04-29T07:00:05.947+05:30  INFO 20224 --- [auth-service] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-04-29T07:00:06.246+05:30  INFO 20224 --- [auth-service] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-04-29T07:00:06.423+05:30  WARN 20224 --- [auth-service] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-04-29T07:00:07.284+05:30  INFO 20224 --- [auth-service] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-04-29T07:00:07.507+05:30  INFO 20224 --- [auth-service] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-04-29T07:00:07.915+05:30  WARN 20224 --- [auth-service] [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'emailService': Unsatisfied dependency expressed through field 'mailSender': No qualifying bean of type 'org.springframework.mail.javamail.JavaMailSender' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+2026-04-29T07:00:07.916+05:30  INFO 20224 --- [auth-service] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-04-29T07:00:07.919+05:30  INFO 20224 --- [auth-service] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-04-29T07:00:07.930+05:30  INFO 20224 --- [auth-service] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-04-29T07:00:07.932+05:30  INFO 20224 --- [auth-service] [restartedMain] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2026-04-29T07:00:07.951+05:30  INFO 20224 --- [auth-service] [restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-04-29T07:00:07.980+05:30 ERROR 20224 --- [auth-service] [restartedMain] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Field mailSender in com.infy.ekart.service.EmailService required a bean of type 'org.springframework.mail.javamail.JavaMailSender' that could not be found.
+
+The injection point has the following annotations:
+	- @org.springframework.beans.factory.annotation.Autowired(required=true)
+
+
+Action:
+
+Consider defining a bean of type 'org.springframework.mail.javamail.JavaMailSender' in your configuration.
+
+2026-04-29T07:02:38.486+05:30  INFO 9752 --- [auth-service] [restartedMain] com.infy.ekart.AuthServiceApplication    : Starting AuthServiceApplication using Java 21.0.9 with PID 9752 (G:\InfosysProject\Ecommerce\Ecommerce-Backend\auth-service\target\classes started by Aashu Pal in G:\InfosysProject\Ecommerce\Ecommerce-Backend\auth-service)
+2026-04-29T07:02:38.487+05:30 DEBUG 9752 --- [auth-service] [restartedMain] com.infy.ekart.AuthServiceApplication    : Running with Spring Boot v3.3.5, Spring v6.1.14
+2026-04-29T07:02:38.488+05:30  INFO 9752 --- [auth-service] [restartedMain] com.infy.ekart.AuthServiceApplication    : No active profile set, falling back to 1 default profile: "default"
+2026-04-29T07:02:38.539+05:30  INFO 9752 --- [auth-service] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-04-29T07:02:38.539+05:30  INFO 9752 --- [auth-service] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-04-29T07:02:39.865+05:30  INFO 9752 --- [auth-service] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-04-29T07:02:39.867+05:30  INFO 9752 --- [auth-service] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-04-29T07:02:40.023+05:30  INFO 9752 --- [auth-service] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 144 ms. Found 2 JPA repository interfaces.
+2026-04-29T07:02:40.042+05:30  INFO 9752 --- [auth-service] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-04-29T07:02:40.043+05:30  INFO 9752 --- [auth-service] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-04-29T07:02:40.058+05:30  INFO 9752 --- [auth-service] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.infy.ekart.repository.CustomerRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-04-29T07:02:40.058+05:30  INFO 9752 --- [auth-service] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.infy.ekart.repository.VerificationTokenRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-04-29T07:02:40.059+05:30  INFO 9752 --- [auth-service] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 6 ms. Found 0 Redis repository interfaces.
+2026-04-29T07:02:40.359+05:30  INFO 9752 --- [auth-service] [restartedMain] o.s.cloud.context.scope.GenericScope     : BeanFactory id=5bd3ec41-93a4-3c9f-bee3-ebc0644f59d4
+2026-04-29T07:02:40.510+05:30  WARN 9752 --- [auth-service] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.cloud.client.loadbalancer.LoadBalancerAutoConfiguration$DeferringLoadBalancerInterceptorConfig' of type [org.springframework.cloud.client.loadbalancer.LoadBalancerAutoConfiguration$DeferringLoadBalancerInterceptorConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [lbRestClientPostProcessor] is declared through a non-static factory method on that class; consider declaring it as static instead.
+2026-04-29T07:02:40.512+05:30  WARN 9752 --- [auth-service] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'deferringLoadBalancerInterceptor' of type [org.springframework.cloud.client.loadbalancer.DeferringLoadBalancerInterceptor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected/applied to a currently created BeanPostProcessor [lbRestClientPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies/advisors. If this bean does not have to be post-processed, declare it with ROLE_INFRASTRUCTURE.
+2026-04-29T07:02:40.900+05:30  INFO 9752 --- [auth-service] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2026-04-29T07:02:40.916+05:30  INFO 9752 --- [auth-service] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-04-29T07:02:40.917+05:30  INFO 9752 --- [auth-service] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.31]
+2026-04-29T07:02:40.984+05:30  INFO 9752 --- [auth-service] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-04-29T07:02:40.985+05:30  INFO 9752 --- [auth-service] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2444 ms
+2026-04-29T07:02:41.027+05:30  INFO 9752 --- [auth-service] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-04-29T07:02:41.281+05:30  INFO 9752 --- [auth-service] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@f47c248
+2026-04-29T07:02:41.285+05:30  INFO 9752 --- [auth-service] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-04-29T07:02:41.297+05:30  INFO 9752 --- [auth-service] [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:mysql://localhost:3306/ekart_auth_service?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC'
+2026-04-29T07:02:41.342+05:30 DEBUG 9752 --- [auth-service] [restartedMain] com.infy.ekart.security.JwtFilter        : Filter 'jwtFilter' configured for use
+2026-04-29T07:02:41.431+05:30  INFO 9752 --- [auth-service] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-04-29T07:02:41.499+05:30  INFO 9752 --- [auth-service] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
+2026-04-29T07:02:41.539+05:30  INFO 9752 --- [auth-service] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-04-29T07:02:41.830+05:30  INFO 9752 --- [auth-service] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-04-29T07:02:42.072+05:30  WARN 9752 --- [auth-service] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-04-29T07:02:43.075+05:30  INFO 9752 --- [auth-service] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-04-29T07:02:43.537+05:30  INFO 9752 --- [auth-service] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-04-29T07:02:44.024+05:30  WARN 9752 --- [auth-service] [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'emailService': Unsatisfied dependency expressed through field 'mailSender': No qualifying bean of type 'org.springframework.mail.javamail.JavaMailSender' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+2026-04-29T07:02:44.025+05:30  INFO 9752 --- [auth-service] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-04-29T07:02:44.028+05:30  INFO 9752 --- [auth-service] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-04-29T07:02:44.041+05:30  INFO 9752 --- [auth-service] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-04-29T07:02:44.044+05:30  INFO 9752 --- [auth-service] [restartedMain] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2026-04-29T07:02:44.060+05:30  INFO 9752 --- [auth-service] [restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-04-29T07:02:44.084+05:30 ERROR 9752 --- [auth-service] [restartedMain] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Field mailSender in com.infy.ekart.service.EmailService required a bean of type 'org.springframework.mail.javamail.JavaMailSender' that could not be found.
+
+The injection point has the following annotations:
+	- @org.springframework.beans.factory.annotation.Autowired(required=true)
+
+
+Action:
+
+Consider defining a bean of type 'org.springframework.mail.javamail.JavaMailSender' in your configuration.
+
+2026-04-29T07:05:19.950+05:30  INFO 6572 --- [auth-service] [restartedMain] com.infy.ekart.AuthServiceApplication    : Starting AuthServiceApplication using Java 21.0.9 with PID 6572 (G:\InfosysProject\Ecommerce\Ecommerce-Backend\auth-service\target\classes started by Aashu Pal in G:\InfosysProject\Ecommerce\Ecommerce-Backend\auth-service)
+2026-04-29T07:05:19.951+05:30 DEBUG 6572 --- [auth-service] [restartedMain] com.infy.ekart.AuthServiceApplication    : Running with Spring Boot v3.3.5, Spring v6.1.14
+2026-04-29T07:05:19.953+05:30  INFO 6572 --- [auth-service] [restartedMain] com.infy.ekart.AuthServiceApplication    : No active profile set, falling back to 1 default profile: "default"
+2026-04-29T07:05:20.008+05:30  INFO 6572 --- [auth-service] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-04-29T07:05:20.008+05:30  INFO 6572 --- [auth-service] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-04-29T07:05:21.100+05:30  INFO 6572 --- [auth-service] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-04-29T07:05:21.102+05:30  INFO 6572 --- [auth-service] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-04-29T07:05:21.251+05:30  INFO 6572 --- [auth-service] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 139 ms. Found 2 JPA repository interfaces.
+2026-04-29T07:05:21.270+05:30  INFO 6572 --- [auth-service] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-04-29T07:05:21.272+05:30  INFO 6572 --- [auth-service] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-04-29T07:05:21.288+05:30  INFO 6572 --- [auth-service] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.infy.ekart.repository.CustomerRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-04-29T07:05:21.288+05:30  INFO 6572 --- [auth-service] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.infy.ekart.repository.VerificationTokenRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-04-29T07:05:21.288+05:30  INFO 6572 --- [auth-service] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 6 ms. Found 0 Redis repository interfaces.
+2026-04-29T07:05:21.586+05:30  INFO 6572 --- [auth-service] [restartedMain] o.s.cloud.context.scope.GenericScope     : BeanFactory id=5bd3ec41-93a4-3c9f-bee3-ebc0644f59d4
+2026-04-29T07:05:21.730+05:30  WARN 6572 --- [auth-service] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.cloud.client.loadbalancer.LoadBalancerAutoConfiguration$DeferringLoadBalancerInterceptorConfig' of type [org.springframework.cloud.client.loadbalancer.LoadBalancerAutoConfiguration$DeferringLoadBalancerInterceptorConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [lbRestClientPostProcessor] is declared through a non-static factory method on that class; consider declaring it as static instead.
+2026-04-29T07:05:21.733+05:30  WARN 6572 --- [auth-service] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'deferringLoadBalancerInterceptor' of type [org.springframework.cloud.client.loadbalancer.DeferringLoadBalancerInterceptor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected/applied to a currently created BeanPostProcessor [lbRestClientPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies/advisors. If this bean does not have to be post-processed, declare it with ROLE_INFRASTRUCTURE.
+2026-04-29T07:05:22.104+05:30  INFO 6572 --- [auth-service] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2026-04-29T07:05:22.119+05:30  INFO 6572 --- [auth-service] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-04-29T07:05:22.120+05:30  INFO 6572 --- [auth-service] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.31]
+2026-04-29T07:05:22.188+05:30  INFO 6572 --- [auth-service] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-04-29T07:05:22.188+05:30  INFO 6572 --- [auth-service] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2179 ms
+2026-04-29T07:05:22.228+05:30  INFO 6572 --- [auth-service] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-04-29T07:05:22.394+05:30  INFO 6572 --- [auth-service] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@70df0072
+2026-04-29T07:05:22.398+05:30  INFO 6572 --- [auth-service] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-04-29T07:05:22.410+05:30  INFO 6572 --- [auth-service] [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:mysql://localhost:3306/ekart_auth_service?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC'
+2026-04-29T07:05:22.460+05:30 DEBUG 6572 --- [auth-service] [restartedMain] com.infy.ekart.security.JwtFilter        : Filter 'jwtFilter' configured for use
+2026-04-29T07:05:22.545+05:30  INFO 6572 --- [auth-service] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-04-29T07:05:22.598+05:30  INFO 6572 --- [auth-service] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
+2026-04-29T07:05:22.637+05:30  INFO 6572 --- [auth-service] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-04-29T07:05:22.929+05:30  INFO 6572 --- [auth-service] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-04-29T07:05:23.107+05:30  WARN 6572 --- [auth-service] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-04-29T07:05:23.994+05:30  INFO 6572 --- [auth-service] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-04-29T07:05:24.287+05:30  INFO 6572 --- [auth-service] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-04-29T07:05:25.142+05:30  INFO 6572 --- [auth-service] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-04-29T07:05:26.350+05:30  INFO 6572 --- [auth-service] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-04-29T07:05:26.388+05:30  INFO 6572 --- [auth-service] [restartedMain] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses RestTemplate.
+2026-04-29T07:05:26.438+05:30  WARN 6572 --- [auth-service] [restartedMain] iguration$LoadBalancerCaffeineWarnLogger : Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2026-04-29T07:05:26.508+05:30  INFO 6572 --- [auth-service] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2026-04-29T07:05:26.525+05:30  INFO 6572 --- [auth-service] [restartedMain] com.infy.ekart.AuthServiceApplication    : Started AuthServiceApplication in 7.051 seconds (process running for 8.176)
+2026-04-29T07:05:27.162+05:30  INFO 6572 --- [auth-service] [restartedMain] com.infy.ekart.config.DataSeeder         : ✅ Admin created: admin@ekart.com with role: ROLE_ADMIN
+2026-04-29T07:05:27.642+05:30  INFO 6572 --- [auth-service] [restartedMain] com.infy.ekart.config.DataSeeder         : ✅ User created: user@ekart.com with role: ROLE_USER
+2026-04-29T07:08:38.281+05:30  INFO 6572 --- [auth-service] [http-nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-04-29T07:08:38.343+05:30  INFO 6572 --- [auth-service] [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-04-29T07:08:38.353+05:30  INFO 6572 --- [auth-service] [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 9 ms
+2026-04-29T07:08:40.174+05:30  INFO 6572 --- [auth-service] [http-nio-8081-exec-9] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 1181 ms
+2026-04-29T07:35:13.052+05:30  WARN 6572 --- [auth-service] [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=49s270ms55µs300ns).
+2026-04-29T07:40:08.717+05:30  INFO 6572 --- [auth-service] [http-nio-8081-exec-1] com.infy.ekart.service.AuthService       : Login attempt for: sre@gmail.com
+2026-04-29T07:40:17.108+05:30  INFO 6572 --- [auth-service] [http-nio-8081-exec-1] com.infy.ekart.service.AuthService       : User logged in: sre@gmail.com with role: ROLE_ADMIN
+2026-04-29T07:42:10.714+05:30  INFO 6572 --- [auth-service] [http-nio-8081-exec-3] com.infy.ekart.service.AuthService       : Login attempt for: rahulrf@gmail.com
+2026-04-29T07:42:11.047+05:30  INFO 6572 --- [auth-service] [http-nio-8081-exec-3] com.infy.ekart.service.AuthService       : User logged in: rahulrf@gmail.com with role: ROLE_ADMIN
+2026-04-29T07:43:01.632+05:30  INFO 6572 --- [auth-service] [http-nio-8081-exec-6] com.infy.ekart.service.AuthService       : Login attempt for: sre@gmal.com
+2026-04-29T07:43:01.855+05:30  WARN 6572 --- [auth-service] [http-nio-8081-exec-6] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [java.lang.RuntimeException: Invalid email or password]
+2026-04-29T07:43:27.046+05:30  INFO 6572 --- [auth-service] [http-nio-8081-exec-5] com.infy.ekart.service.AuthService       : Login attempt for: sre@gmal.com
+2026-04-29T07:43:27.046+05:30  WARN 6572 --- [auth-service] [http-nio-8081-exec-5] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [java.lang.RuntimeException: Invalid email or password]
+2026-04-29T07:44:01.913+05:30  INFO 6572 --- [auth-service] [http-nio-8081-exec-9] com.infy.ekart.service.AuthService       : Login attempt for: admin@ekart.com
+2026-04-29T07:44:02.563+05:30  INFO 6572 --- [auth-service] [http-nio-8081-exec-9] com.infy.ekart.service.AuthService       : User logged in: admin@ekart.com with role: ROLE_ADMIN
+2026-04-29T07:46:10.387+05:30  INFO 6572 --- [auth-service] [http-nio-8081-exec-10] com.infy.ekart.service.AuthService       : Login attempt for: admin@ekart.com
+2026-04-29T07:46:10.745+05:30  INFO 6572 --- [auth-service] [http-nio-8081-exec-10] com.infy.ekart.service.AuthService       : User logged in: admin@ekart.com with role: ROLE_ADMIN
+2026-04-29T07:46:18.934+05:30  INFO 6572 --- [auth-service] [http-nio-8081-exec-2] com.infy.ekart.service.AuthService       : Login attempt for: admin@ekart.com
+2026-04-29T07:46:19.261+05:30  INFO 6572 --- [auth-service] [http-nio-8081-exec-2] com.infy.ekart.service.AuthService       : User logged in: admin@ekart.com with role: ROLE_ADMIN
+2026-04-29T07:51:28.481+05:30  INFO 6572 --- [auth-service] [http-nio-8081-exec-5] com.infy.ekart.service.AuthService       : Login attempt for: admin@ekart.com
+2026-04-29T07:51:29.424+05:30  INFO 6572 --- [auth-service] [http-nio-8081-exec-5] com.infy.ekart.service.AuthService       : User logged in: admin@ekart.com with role: ROLE_ADMIN
+2026-04-29T07:52:19.698+05:30  WARN 6572 --- [auth-service] [http-nio-8081-exec-7] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [0] in public org.springframework.http.ResponseEntity<com.infy.ekart.dto.ApiResponse> com.infy.ekart.controller.AuthController.register(com.infy.ekart.dto.CustomerDTO): [Field error in object 'customerDTO' on field 'emailId': rejected value [null]; codes [NotBlank.customerDTO.emailId,NotBlank.emailId,NotBlank.java.lang.String,NotBlank]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [customerDTO.emailId,emailId]; arguments []; default message [emailId]]; default message [Email is required]] ]
+2026-04-29T07:55:27.855+05:30  WARN 6572 --- [auth-service] [http-nio-8081-exec-8] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [0] in public org.springframework.http.ResponseEntity<com.infy.ekart.dto.ApiResponse> com.infy.ekart.controller.AuthController.register(com.infy.ekart.dto.CustomerDTO): [Field error in object 'customerDTO' on field 'emailId': rejected value [null]; codes [NotBlank.customerDTO.emailId,NotBlank.emailId,NotBlank.java.lang.String,NotBlank]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [customerDTO.emailId,emailId]; arguments []; default message [emailId]]; default message [Email is required]] ]
+2026-04-29T08:02:29.268+05:30  INFO 6572 --- [auth-service] [http-nio-8081-exec-2] com.infy.ekart.service.AuthService       : Login attempt for: admin@ekart.com
+2026-04-29T08:02:29.634+05:30  INFO 6572 --- [auth-service] [http-nio-8081-exec-2] com.infy.ekart.service.AuthService       : User logged in: admin@ekart.com with role: ROLE_ADMIN
+2026-04-29T08:02:49.152+05:30  INFO 6572 --- [auth-service] [http-nio-8081-exec-4] com.infy.ekart.service.AuthService       : Login attempt for: sre@gmal.com
+2026-04-29T08:02:49.152+05:30  WARN 6572 --- [auth-service] [http-nio-8081-exec-4] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [java.lang.RuntimeException: Invalid email or password]
+2026-04-29T08:03:10.218+05:30  INFO 6572 --- [auth-service] [http-nio-8081-exec-7] com.infy.ekart.service.AuthService       : Login attempt for: sre@gmal.com
+2026-04-29T08:03:10.317+05:30  WARN 6572 --- [auth-service] [http-nio-8081-exec-7] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [java.lang.RuntimeException: Invalid email or password]
+2026-04-29T08:04:28.377+05:30  INFO 6572 --- [auth-service] [http-nio-8081-exec-1] com.infy.ekart.service.AuthService       : Login attempt for: sre@gmal.com
+2026-04-29T08:04:28.468+05:30  WARN 6572 --- [auth-service] [http-nio-8081-exec-1] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [java.lang.RuntimeException: Invalid email or password]
+2026-04-29T08:04:30.589+05:30  INFO 6572 --- [auth-service] [http-nio-8081-exec-8] com.infy.ekart.service.AuthService       : Login attempt for: sre@gmal.com
+2026-04-29T08:04:30.596+05:30  WARN 6572 --- [auth-service] [http-nio-8081-exec-8] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [java.lang.RuntimeException: Invalid email or password]
+2026-04-29T08:04:32.632+05:30  INFO 6572 --- [auth-service] [http-nio-8081-exec-10] com.infy.ekart.service.AuthService       : Login attempt for: sre@gmal.com
+2026-04-29T08:04:32.642+05:30  WARN 6572 --- [auth-service] [http-nio-8081-exec-10] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [java.lang.RuntimeException: Invalid email or password]
+2026-04-29T08:04:42.127+05:30  INFO 6572 --- [auth-service] [http-nio-8081-exec-2] com.infy.ekart.service.AuthService       : Login attempt for: admin@ekart.com
+2026-04-29T08:04:42.465+05:30  INFO 6572 --- [auth-service] [http-nio-8081-exec-2] com.infy.ekart.service.AuthService       : User logged in: admin@ekart.com with role: ROLE_ADMIN
+2026-04-29T08:53:16.974+05:30  INFO 6572 --- [auth-service] [http-nio-8081-exec-5] com.infy.ekart.service.AuthService       : Login attempt for: admin@ekart.com
+2026-04-29T08:53:18.930+05:30  INFO 6572 --- [auth-service] [http-nio-8081-exec-5] com.infy.ekart.service.AuthService       : User logged in: admin@ekart.com with role: ROLE_ADMIN
+2026-04-29T08:53:36.381+05:30  INFO 6572 --- [auth-service] [http-nio-8081-exec-9] com.infy.ekart.service.AuthService       : Login attempt for: sre@gmal.com
+2026-04-29T08:53:36.568+05:30  WARN 6572 --- [auth-service] [http-nio-8081-exec-9] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [java.lang.RuntimeException: Invalid email or password]
+2026-04-29T08:53:42.444+05:30  INFO 6572 --- [auth-service] [http-nio-8081-exec-8] com.infy.ekart.service.AuthService       : Login attempt for: admin@ekart.com
+2026-04-29T08:53:42.856+05:30  INFO 6572 --- [auth-service] [http-nio-8081-exec-8] com.infy.ekart.service.AuthService       : User logged in: admin@ekart.com with role: ROLE_ADMIN

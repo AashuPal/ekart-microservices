@@ -1,24 +1,23 @@
 package com.infy.ekart.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
 public class EmailService {
 
-    @Autowired
-    private JavaMailSender mailSender;
+    private static final Logger log = LoggerFactory.getLogger(EmailService.class);
 
     public void sendEmail(String to, String token) {
         String link = "http://localhost:8081/auth/verify?token=" + token;
-
-        SimpleMailMessage msg = new SimpleMailMessage();
-        msg.setTo(to);
-        msg.setSubject("Verify Email");
-        msg.setText("Click: " + link);
-
-        mailSender.send(msg);
+        
+        log.info("========================================");
+        log.info("Verification email for: {}", to);
+        log.info("Verification link: {}", link);
+        log.info("========================================");
+        
+        // In production, uncomment below:
+        // mailSender.send(msg);
     }
 }

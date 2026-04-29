@@ -24,46 +24,56 @@ spring:
         format_sql: true
         dialect: org.hibernate.dialect.MySQLDialect
 
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: your-email@gmail.com
-    password: your-app-password
-    properties:
-      mail:
-        smtp:
-          auth: false
-          starttls:
-            enable: false
-
   data:
     redis:
       host: localhost
       port: 6379
 
-  # Disable Kafka auto-configuration if not using it
   autoconfigure:
     exclude:
       - org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
+      - org.springframework.boot.autoconfigure.mail.MailSenderAutoConfiguration
+      - org.springframework.boot.autoconfigure.mail.MailSenderValidatorAutoConfiguration
 
 eureka:
   client:
     enabled: false
 
-# JWT Configuration
 jwt:
   secret: mysupersecurekeymysupersecurekey12345678
-  expiration: 3600000        # 1 hour
-  refresh-expiration: 604800000  # 7 days
+  expiration: 3600000
+  refresh-expiration: 604800000
 
-# Logging
+# Admin & User Configuration
+app:
+  admin:
+    email: admin@ekart.com
+    password: Admin@123
+    name: Super Admin
+    phone: "+91-9999999999"
+    role: ROLE_ADMIN
+  default-user:
+    email: user@ekart.com
+    password: User@123
+    name: Test User
+    phone: "+91-8888888888"
+    role: ROLE_USER
+
 logging:
+  file:
+    path: logs/
+    name: logs/auth-service.log
+  logback:
+    rollingpolicy:
+      max-file-size: 10MB
+      max-history: 30
   level:
     root: INFO
     com.infy.ekart: DEBUG
-    org.springframework.security: DEBUG
+    org.springframework.security: INFO
+  pattern:
+    console: "%d{HH:mm:ss.SSS} %clr([%X{requestId:-}]){cyan} %-5level %logger{20} - %msg%n"
 
-# SpringDoc OpenAPI / Swagger Configuration
 springdoc:
   api-docs:
     path: /v3/api-docs
@@ -73,9 +83,5 @@ springdoc:
     enabled: true
     operationsSorter: method
     tagsSorter: alpha
-    display-request-duration: true
-    filter: false
     try-it-out-enabled: true
-    doc-expansion: list
   show-actuator: false
-  show-spring-cloud-functions: false

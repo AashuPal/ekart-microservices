@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 public class CategoryServiceImpl implements CategoryService {
 
     private static final Logger log = LoggerFactory.getLogger(CategoryServiceImpl.class);
-
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
 
@@ -41,10 +40,16 @@ public class CategoryServiceImpl implements CategoryService {
         category.setDescription(request.getDescription());
         category.setImageUrl(request.getImageUrl());
         category.setSortOrder(request.getSortOrder());
+        category.setIsActive(true);
 
-        if (request.getParentId() != null) {
-            categoryRepository.findById(UUID.fromString(request.getParentId()))
-                .ifPresent(category::setParent);
+        // Only set parent if valid UUID
+        if (request.getParentId() != null && !request.getParentId().isEmpty()) {
+            try {
+                UUID parentId = UUID.fromString(request.getParentId());
+                categoryRepository.findById(parentId).ifPresent(category::setParent);
+            } catch (IllegalArgumentException e) {
+                log.warn("Invalid parent UUID: {}", request.getParentId());
+            }
         }
 
         category = categoryRepository.save(category);
@@ -55,7 +60,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional(readOnly = true)
     public List<CategoryResponse> getAllCategories() {
-        return categoryRepository.findByIsActiveTrueOrderBySortOrder().stream()
+        return categoryRepository.findAll().stream()  // ✅ Use findAll() instead
             .map(categoryMapper::toCategoryResponse)
             .collect(Collectors.toList());
     }
@@ -75,7 +80,10 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = categoryRepository.findById(id)
             .orElseThrow(() -> new CategoryNotFoundException(id));
 
-        if (request.getName() != null) category.setName(request.getName());
+        if (request.getName() != null) {
+            category.setName(request.getName());
+            category.setSlug(request.getName().toLowerCase().replace(" ", "-"));
+        }
         if (request.getDescription() != null) category.setDescription(request.getDescription());
         if (request.getImageUrl() != null) category.setImageUrl(request.getImageUrl());
 
