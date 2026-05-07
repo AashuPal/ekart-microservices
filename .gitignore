@@ -1,0 +1,22 @@
+# Secrets
+firebase-service-account.json
+application.yaml
+*.env
+secret*.json
+
+# Logs
+logs/
+*.log
+*.gz
+
+# Java
+target/
+
+# Node
+node_modules/
+
+# IDE
+.idea/
+.project
+.classpath
+.settings/

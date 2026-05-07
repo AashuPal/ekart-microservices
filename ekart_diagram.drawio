@@ -1,0 +1,47 @@
+<mxfile>
+  <diagram name="10_10 Architecture">
+    <mxGraphModel>
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <mxCell id="client" value="Client" style="ellipse;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="40" y="140" width="80" height="40" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="gateway" value="API Gateway (JWT)" style="rounded=1;fillColor=#d5e8d4;" vertex="1" parent="1">
+          <mxGeometry x="160" y="130" width="160" height="60" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="auth" value="Auth Service" style="rounded=1;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="360" y="40" width="120" height="60" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="product" value="Product Service" style="rounded=1;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="360" y="120" width="120" height="60" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="cart" value="Cart Service" style="rounded=1;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="360" y="200" width="120" height="60" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="order" value="Order Service" style="rounded=1;fillColor=#f8cecc;" vertex="1" parent="1">
+          <mxGeometry x="520" y="120" width="140" height="60" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="payment" value="Payment Service" style="rounded=1;fillColor=#f8cecc;" vertex="1" parent="1">
+          <mxGeometry x="700" y="120" width="140" height="60" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="redis" value="Redis Cache" style="rounded=1;fillColor=#e1d5e7;" vertex="1" parent="1">
+          <mxGeometry x="520" y="220" width="120" height="60" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="kafka" value="Kafka Broker" style="rounded=1;fillColor=#d5e8d4;" vertex="1" parent="1">
+          <mxGeometry x="700" y="220" width="120" height="60" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
