@@ -18,8 +18,8 @@ public class FirebaseService {
     private final Map<String, String> verificationCodes = new HashMap<>();
     
     // YOUR FIREBASE API KEY
-    @Value("${firebase.api-key}")
-    private static String FIREBASE_API_KEY;
+    //@Value("${firebase.api-key}")
+    private static final String FIREBASE_API_KEY="AIzaSyD6VVvCn7xj1kHDJY9Qy41TXZ1JGct1j3Y";
 
     public FirebaseService(FirebaseAuth firebaseAuth) {
         this.firebaseAuth = firebaseAuth;

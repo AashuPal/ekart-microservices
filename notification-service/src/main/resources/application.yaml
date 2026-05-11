@@ -1,0 +1,54 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: notification-service
+
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
+      - org.springframework.boot.autoconfigure.mail.MailSenderAutoConfiguration
+      - org.springframework.boot.autoconfigure.mail.MailSenderValidatorAutoConfiguration
+
+eureka:
+  client:
+    enabled: false
+
+app:
+  email:
+    from: aashu.infy@gmail.com
+    from-name: eKart Store
+
+# Firebase
+firebase:
+  config:
+    path: classpath:firebase-service-account.json
+  api-key: AIzaSyD6VVvCn7xj1kHDJY9Qy41TXZ1JGct1j3Y
+
+# Swagger
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui/index.html
+    enabled: true
+    operationsSorter: method
+    tagsSorter: alpha
+    try-it-out-enabled: true
+
+# Logging
+logging:
+  file:
+    path: logs/
+    name: logs/notification-service.log
+  logback:
+    rollingpolicy:
+      max-file-size: 10MB
+      max-history: 30
+  level:
+    root: INFO
+    com.infy.ekart: DEBUG
+  pattern:
+    console: "%d{HH:mm:ss.SSS} %-5level %logger{20} - %msg%n"

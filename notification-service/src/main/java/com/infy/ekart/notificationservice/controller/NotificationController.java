@@ -69,4 +69,13 @@ public class NotificationController {
     public ResponseEntity<?> paymentConfirm(@RequestBody Map<String, String> req) {
         return ResponseEntity.ok(firebaseService.sendPaymentConfirmation(req));
     }
+    @PostMapping("/sync-user")
+    public ResponseEntity<?> syncUser(@RequestBody Map<String, String> req) {
+        String email = req.get("email");
+        String password = req.getOrDefault("password", "Temp@123456");
+        String name = req.getOrDefault("name", "User");
+        
+        Map<String, Object> result = firebaseService.syncUserToFirebase(email, password, name);
+        return ResponseEntity.ok(result);
+    }
 }

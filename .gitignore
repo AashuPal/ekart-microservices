@@ -1,22 +1,50 @@
-# Secrets
-firebase-service-account.json
-application.yaml
-*.env
-secret*.json
+# ============ BUILD ============
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+*.jar
+*.war
+*.ear
 
-# Logs
+# ============ IDE ============
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+.settings/
+.classpath
+.project
+.factorypath
+
+# ============ OS ============
+.DS_Store
+Thumbs.db
+*.swp
+*.bak
+
+# ============ SECRETS ============
+firebase-service-account.json
+*.p12
+*.jks
+*.keystore
+
+# ============ LOGS ============
 logs/
 *.log
-*.gz
+*.log.*
 
-# Java
-target/
+# ============ CONFIG WITH SECRETS ============
+application-local.yml
+application-dev.yml
+application-prod.yml
+**/application-*.yml
+!**/application-example.yml
 
-# Node
-node_modules/
+# ============ DEPENDENCIES ============
+dependency-reduced-pom.xml
 
-# IDE
-.idea/
-.project
-.classpath
-.settings/
+# ============ ENV ============
+.env
+.env.local

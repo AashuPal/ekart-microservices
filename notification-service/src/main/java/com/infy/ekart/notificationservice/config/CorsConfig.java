@@ -1,4 +1,4 @@
-package com.infy.ekart.productservice.config;
+package com.infy.ekart.notificationservice.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
