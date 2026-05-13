@@ -51,10 +51,25 @@ spring:
             allowedHeaders: "*"
             allowCredentials: true
 
+  # Added to fix DataSource auto‑configuration
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+
   security:
     jwt:
-      secret: ekart-secret-key-must-be-at-least-256-bits-long-for-hs256
-      expiration: 3600
+      secret: mysupersecurekeymysupersecurekey12345678
+      expiration: 3600000
+  autoconfigure:
+    exclude: 
+      - org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+      - org.springframework.boot.autoconfigure.security.reactive.ReactiveSecurityAutoConfiguration
 
 resilience4j:
   circuitbreaker:

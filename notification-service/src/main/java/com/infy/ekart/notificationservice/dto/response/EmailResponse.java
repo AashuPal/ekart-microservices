@@ -1,15 +1,13 @@
 package com.infy.ekart.notificationservice.dto.response;
 
-public class EmailResponse {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class EmailResponse {
     private boolean success;
     private String message;
-
-    public EmailResponse(boolean success, String message) {
-        this.success = success;
-        this.message = message;
-    }
-
-    public boolean isSuccess() { return success; }
-    public String getMessage() { return message; }
 }

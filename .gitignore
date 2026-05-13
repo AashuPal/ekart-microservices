@@ -5,7 +5,7 @@ target/
 !**/src/test/**/target/
 *.jar
 *.war
-*.ear
+*.ear.gitignore
 
 # ============ IDE ============
 .idea/
@@ -39,6 +39,7 @@ logs/
 application-local.yml
 application-dev.yml
 application-prod.yml
+application.yaml
 **/application-*.yml
 !**/application-example.yml
 

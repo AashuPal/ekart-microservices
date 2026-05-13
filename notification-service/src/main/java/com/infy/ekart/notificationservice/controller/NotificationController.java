@@ -1,81 +1,80 @@
 package com.infy.ekart.notificationservice.controller;
 
-import com.infy.ekart.notificationservice.service.FirebaseService;
+import com.infy.ekart.notificationservice.dto.request.EmailRequest;
+import com.infy.ekart.notificationservice.dto.response.EmailResponse;
+import com.infy.ekart.notificationservice.service.EmailService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-
 @RestController
-@RequestMapping("/api/v1")
-@CrossOrigin(origins = "*")
+@RequestMapping("/api/v1/email")
 public class NotificationController {
 
-    private final FirebaseService firebaseService;
+    private final EmailService emailService;
 
-    public NotificationController(FirebaseService firebaseService) {
-        this.firebaseService = firebaseService;
+    public NotificationController(EmailService emailService) {
+        this.emailService = emailService;
     }
 
-    // 1️⃣ Welcome + Verification
-    @PostMapping("/send-welcome")
-    public ResponseEntity<?> sendWelcome(@RequestBody Map<String, String> req) {
-        String email = req.get("email");
-        String name = req.getOrDefault("name", "Customer");
-        String type = req.getOrDefault("type", "link");
-
-        Map<String, Object> result = "code".equals(type) 
-            ? firebaseService.sendVerificationCode(email, name)
-            : firebaseService.sendVerificationEmail(email, name);
-        
-        return ResponseEntity.ok(result);
-    }
-
-    @PostMapping("/verify-code")
-    public ResponseEntity<?> verifyCode(@RequestBody Map<String, String> req) {
-        boolean ok = firebaseService.verifyCode(req.get("email"), req.get("code"));
-        return ok ? ResponseEntity.ok(Map.of("success", true))
-                  : ResponseEntity.badRequest().body(Map.of("error", "Invalid code"));
-    }
-
-    // 2️⃣ Order Confirmation
+    @Operation(summary = "Send order confirmation email")
     @PostMapping("/order-confirmation")
-    public ResponseEntity<?> orderConfirm(@RequestBody Map<String, String> req) {
-        return ResponseEntity.ok(firebaseService.sendOrderConfirmation(req));
+    public ResponseEntity<EmailResponse> sendOrderConfirmation(@RequestBody EmailRequest request) {
+        boolean sent = emailService.sendOrderConfirmation(
+                request.getTo(),
+                request.getCustomerName(),
+                request.getOrderNumber(),
+                request.getOrderTotal(),
+                request.getItemList(),
+                request.getTrackingNumber()
+        );
+        return ResponseEntity.ok(new EmailResponse(sent, sent ? "Order confirmation sent!" : "Failed to send"));
     }
 
-    // 3️⃣ Google Sign-In
-    @PostMapping("/verify-google")
-    public ResponseEntity<?> verifyGoogle(@RequestBody Map<String, String> req) {
-        Map<String, Object> user = firebaseService.verifyGoogleToken(req.get("idToken"));
-        return user != null ? ResponseEntity.ok(Map.of("success", true, "user", user))
-                            : ResponseEntity.badRequest().body(Map.of("error", "Invalid token"));
+    @Operation(summary = "Send order status update email")
+    @PostMapping("/order-status")
+    public ResponseEntity<EmailResponse> sendOrderStatus(@RequestBody EmailRequest request) {
+        boolean sent = emailService.sendOrderStatusUpdate(
+                request.getTo(),
+                request.getCustomerName(),
+                request.getOrderNumber(),
+                request.getStatus(),
+                request.getTrackingNumber()
+        );
+        return ResponseEntity.ok(new EmailResponse(sent, sent ? "Order status update sent!" : "Failed to send"));
     }
 
-    // 4️⃣ Password Reset
-    @PostMapping("/forgot-password")
-    public ResponseEntity<?> forgotPassword(@RequestBody Map<String, String> req) {
-        return ResponseEntity.ok(firebaseService.sendPasswordReset(req.get("email")));
-    }
-
-    // 5️⃣ Shipping Update
-    @PostMapping("/shipping-update")
-    public ResponseEntity<?> shippingUpdate(@RequestBody Map<String, String> req) {
-        return ResponseEntity.ok(firebaseService.sendShippingUpdate(req));
-    }
-
-    // 6️⃣ Payment Confirmation
+    @Operation(summary = "Send payment confirmation email")
     @PostMapping("/payment-confirmation")
-    public ResponseEntity<?> paymentConfirm(@RequestBody Map<String, String> req) {
-        return ResponseEntity.ok(firebaseService.sendPaymentConfirmation(req));
+    public ResponseEntity<EmailResponse> sendPaymentConfirmation(@RequestBody EmailRequest request) {
+        boolean sent = emailService.sendPaymentConfirmation(
+                request.getTo(),
+                request.getCustomerName(),
+                request.getOrderNumber(),
+                request.getOrderTotal(),
+                request.getPaymentMethod(),
+                request.getTransactionId()
+        );
+        return ResponseEntity.ok(new EmailResponse(sent, sent ? "Payment confirmation sent!" : "Failed to send"));
     }
-    @PostMapping("/sync-user")
-    public ResponseEntity<?> syncUser(@RequestBody Map<String, String> req) {
-        String email = req.get("email");
-        String password = req.getOrDefault("password", "Temp@123456");
-        String name = req.getOrDefault("name", "User");
-        
-        Map<String, Object> result = firebaseService.syncUserToFirebase(email, password, name);
-        return ResponseEntity.ok(result);
+
+    @Operation(summary = "Send refund confirmation email")
+    @PostMapping("/refund")
+    public ResponseEntity<EmailResponse> sendRefundConfirmation(@RequestBody EmailRequest request) {
+        boolean sent = emailService.sendRefundConfirmation(
+                request.getTo(),
+                request.getCustomerName(),
+                request.getOrderNumber(),
+                request.getRefundAmount(),
+                request.getRefundReason()
+        );
+        return ResponseEntity.ok(new EmailResponse(sent, sent ? "Refund confirmation sent!" : "Failed to send"));
+    }
+
+    @Operation(summary = "Send generic email")
+    @PostMapping("/send")
+    public ResponseEntity<EmailResponse> sendEmail(@RequestBody EmailRequest request) {
+        boolean sent = emailService.sendEmail(request.getTo(), request.getSubject(), request.getBody());
+        return ResponseEntity.ok(new EmailResponse(sent, sent ? "Email sent!" : "Failed to send"));
     }
 }
