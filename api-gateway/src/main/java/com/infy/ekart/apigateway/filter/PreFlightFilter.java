@@ -8,8 +8,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
-@Component
-@Slf4j
+//@Component
+//@Slf4j
 public class PreFlightFilter extends AbstractGatewayFilterFactory<PreFlightFilter.Config> {
 
     private final JwtUtil jwtUtil;
