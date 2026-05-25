@@ -1,7 +1,6 @@
 package com.infy.ekart.cartservice.exception;
 
 import com.infy.ekart.cartservice.dto.response.ErrorResponse;
-import com.infy.ekart.cartservice.event.listener.PricingEventListener;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;

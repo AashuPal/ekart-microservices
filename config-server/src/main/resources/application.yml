@@ -9,5 +9,9 @@ spring:
           uri: https://github.com/AashuPal/ekart-config-repo.git
           default-label: main
           search-paths: '{application}'
-          username: AashuPal                     # your GitHub username
-          password: ${GIT_TOKEN}                 # the personal access token (env variable)
+          clone-on-start: true
+          username: AashuPal
+          password: ${GIT_TOKEN}
+  profiles:
+    active:
+    - default

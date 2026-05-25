@@ -1,4 +1,3 @@
-
 package com.infy.ekart.cartservice;
 
 import org.springframework.boot.SpringApplication;
@@ -10,9 +9,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableCaching
-@EnableAsync
-@EnableScheduling
 public class CartServiceApplication {
 
     public static void main(String[] args) {
