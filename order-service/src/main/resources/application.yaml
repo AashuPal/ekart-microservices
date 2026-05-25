@@ -17,10 +17,18 @@ spring:
   autoconfigure:
     exclude:
       - org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
+  boot:
+    admin:
+      client:
+        url:
+        - http://localhost:1111/
 
 eureka:
   client:
-    enabled: false
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    register-with-eureka: true
+    fetch-registry: true
 
 # Springdoc OpenAPI
 springdoc:
@@ -35,7 +43,12 @@ springdoc:
     try-it-out-enabled: true
   packages-to-scan: com.infy.ekart
   show-actuator: false
-
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+        - '*'
 # Logging
 logging:
   file:

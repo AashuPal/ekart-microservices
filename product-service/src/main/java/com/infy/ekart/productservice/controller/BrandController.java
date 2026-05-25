@@ -37,4 +37,9 @@ public class BrandController {
         BrandResponse response = brandService.getBrandById(brandId);
         return ResponseEntity.ok(response);
     }
+    @DeleteMapping("/{brandId}")
+    public ResponseEntity<Void> deleteBrand(@PathVariable String brandId) {
+        brandService.deleteBrand(brandId);
+        return ResponseEntity.noContent().build();
+    }
 }

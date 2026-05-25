@@ -3,6 +3,7 @@ package com.infy.ekart.productservice.entity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name = "review")
@@ -36,7 +37,8 @@ public class Review {
 
     @Column(name = "helpful_count")
     private Integer helpfulCount = 0;
-
+    
+    @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 

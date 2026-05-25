@@ -41,10 +41,18 @@ spring:
       - org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
       - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
       - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
+  boot:
+    admin:
+      client:
+        url:
+        - http://localhost:1111/
 
 eureka:
   client:
-    enabled: false
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    register-with-eureka: true
+    fetch-registry: true
 
 resilience4j:
   circuitbreaker:
@@ -62,11 +70,15 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info,metrics
+        include: '*'
   endpoint:
     health:
       show-details: always
       validate-group-membership: false
+  health:
+    redis:
+      enabled: false
+
 
 app:
   name: ${spring.application.name}
@@ -77,9 +89,9 @@ app:
     reservation-timeout-minutes: 15
   client:
     inventory-service:
-      url: http://localhost:8083
+      url: http://localhost:8080/api/v1/products
     order-service:
-      url: http://localhost:8086
+      url: http://localhost:8080/api/v1/orders
   payment:
     tax-rate: 0.18
     free-shipping-threshold: 500

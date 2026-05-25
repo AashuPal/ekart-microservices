@@ -7,4 +7,5 @@ public interface BrandService {
     BrandResponse createBrand(Object request);
     List<BrandResponse> getAllBrands();
     BrandResponse getBrandById(String brandId);
+    void deleteBrand(String brandId);
 }

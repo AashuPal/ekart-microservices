@@ -1,3 +1,14 @@
+server:
+  port: 8888
+
 spring:
-  application:
-    name: config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: git@github.com:AashuPal/ekart-config-repo.git 
+          default-label: main
+          search-paths: '{application}'                         # looks inside product-service/, order-service/, etc.
+          ignore-local-ssh-settings: true
+          host-key-algorithm: ssh-rsa
+          private-key: ${GIT_SSH_KEY}                           # full private SSH key passed via environment variable

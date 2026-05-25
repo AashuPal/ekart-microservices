@@ -17,10 +17,24 @@ spring:
           starttls:
             enable: true
             required: true
+  boot:
+    admin:
+      client:
+        url:
+        - http://localhost:1111/
 
 eureka:
   client:
-    enabled: false
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    register-with-eureka: true
+    fetch-registry: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+        - '*'
 
 app:
   email:

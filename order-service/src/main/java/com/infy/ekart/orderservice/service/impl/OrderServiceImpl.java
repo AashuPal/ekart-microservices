@@ -4,11 +4,13 @@ import com.infy.ekart.orderservice.dto.request.UpdateOrderStatusRequest;
 import com.infy.ekart.orderservice.dto.response.OrderItemResponse;
 import com.infy.ekart.orderservice.dto.response.OrderListResponse;
 import com.infy.ekart.orderservice.dto.response.OrderResponse;
+import com.infy.ekart.orderservice.dto.response.ShippingAddressDTO;  // new import
 import com.infy.ekart.orderservice.entity.*;
 import com.infy.ekart.orderservice.enums.OrderStatus;
 import com.infy.ekart.orderservice.enums.PaymentMethod;
 import com.infy.ekart.orderservice.exception.OrderNotFoundException;
 import com.infy.ekart.orderservice.repository.OrderRepository;
+import com.infy.ekart.orderservice.repository.ShippingAddressRepository;
 import com.infy.ekart.orderservice.service.OrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,9 +30,11 @@ public class OrderServiceImpl implements OrderService {
 
     private static final Logger log = LoggerFactory.getLogger(OrderServiceImpl.class);
     private final OrderRepository orderRepository;
+    private final ShippingAddressRepository addressRepository;
 
-    public OrderServiceImpl(OrderRepository orderRepository) {
+    public OrderServiceImpl(OrderRepository orderRepository,ShippingAddressRepository addressRepository) {
         this.orderRepository = orderRepository;
+        this.addressRepository = addressRepository;
     }
 
     @Override
@@ -80,18 +84,52 @@ public class OrderServiceImpl implements OrderService {
         }
 
         // Shipping Address
-        Map<String, Object> shipAddr = (Map<String, Object>) request.get("shippingAddress");
-        if (shipAddr != null) {
-            ShippingAddress address = new ShippingAddress();
-            address.setFullName((String) shipAddr.get("fullName"));
-            address.setAddressLine1((String) shipAddr.get("addressLine1"));
-            address.setAddressLine2((String) shipAddr.get("addressLine2"));
-            address.setCity((String) shipAddr.get("city"));
-            address.setState((String) shipAddr.get("state"));
-            address.setPostalCode((String) shipAddr.get("postalCode"));
-            address.setCountry((String) shipAddr.get("country"));
-            address.setPhoneNumber((String) shipAddr.get("phoneNumber"));
-            order.setShippingAddress(address);
+        UUID savedAddressId = null;
+        if (request.containsKey("shippingAddressId") && request.get("shippingAddressId") != null) {
+            savedAddressId = UUID.fromString(request.get("shippingAddressId").toString());
+        }
+
+        if (savedAddressId != null) {
+            // Use saved address
+            ShippingAddress saved = addressRepository.findById(savedAddressId)
+                    .orElseThrow(() -> new RuntimeException("Saved address not found"));
+
+            // Security: must belong to the same user
+            String userEmail = (String) request.getOrDefault("email", "");
+            if (!saved.getCustomerEmail().equalsIgnoreCase(userEmail)) {
+                throw new RuntimeException("Address does not belong to this user");
+            }
+
+            // Create a snapshot for the order
+            ShippingAddress orderAddress = new ShippingAddress();
+            orderAddress.setFullName(saved.getFullName());
+            orderAddress.setAddressLine1(saved.getAddressLine1());
+            orderAddress.setAddressLine2(saved.getAddressLine2());
+            orderAddress.setCity(saved.getCity());
+            orderAddress.setState(saved.getState());
+            orderAddress.setPostalCode(saved.getPostalCode());
+            orderAddress.setCountry(saved.getCountry());
+            orderAddress.setPhoneNumber(saved.getPhoneNumber());
+            orderAddress.setCustomerEmail(saved.getCustomerEmail()); 
+            // do NOT copy the id or customerEmail – we want a snapshot
+            order.setShippingAddress(orderAddress);
+
+        } else {
+            // Fallback: full address from request (existing logic)
+            Map<String, Object> shipAddr = (Map<String, Object>) request.get("shippingAddress");
+            if (shipAddr != null) {
+                ShippingAddress address = new ShippingAddress();
+                address.setFullName((String) shipAddr.get("fullName"));
+                address.setAddressLine1((String) shipAddr.get("addressLine1"));
+                address.setAddressLine2((String) shipAddr.get("addressLine2"));
+                address.setCity((String) shipAddr.get("city"));
+                address.setState((String) shipAddr.get("state"));
+                address.setPostalCode((String) shipAddr.get("postalCode"));
+                address.setCountry((String) shipAddr.get("country"));
+                address.setPhoneNumber((String) shipAddr.get("phoneNumber"));
+                address.setCustomerEmail((String) shipAddr.get("customerEmail"));
+                order.setShippingAddress(address);
+            }
         }
 
         order = orderRepository.save(order);
@@ -106,6 +144,16 @@ public class OrderServiceImpl implements OrderService {
         Order order = orderRepository.findById(id)
             .orElseThrow(() -> new OrderNotFoundException(id));
         return toOrderResponse(order);
+    }
+    @Override
+    @Transactional(readOnly = true)
+    public OrderListResponse getAllOrders(int page, int size) {
+        Page<Order> orderPage = orderRepository.findAll(PageRequest.of(page, size));
+        List<OrderResponse> orders = orderPage.getContent().stream()
+                .map(this::toOrderResponse)
+                .collect(Collectors.toList());
+        return new OrderListResponse(orders, page, size,
+                orderPage.getTotalElements(), orderPage.getTotalPages());
     }
 
     @Override
@@ -175,7 +223,7 @@ public class OrderServiceImpl implements OrderService {
             ))
             .collect(Collectors.toList());
 
-        return new OrderResponse(
+        OrderResponse response = new OrderResponse(
             order.getId(),
             order.getOrderNumber(),
             order.getUserId(),
@@ -197,5 +245,23 @@ public class OrderServiceImpl implements OrderService {
             order.getDeliveredAt(),
             order.getCancelledAt()
         );
+
+        // ========== NEW: Add shipping address to response ==========
+        if (order.getShippingAddress() != null) {
+            ShippingAddressDTO dto = ShippingAddressDTO.builder()
+                .fullName(order.getShippingAddress().getFullName())
+                .addressLine1(order.getShippingAddress().getAddressLine1())
+                .addressLine2(order.getShippingAddress().getAddressLine2())
+                .city(order.getShippingAddress().getCity())
+                .state(order.getShippingAddress().getState())
+                .postalCode(order.getShippingAddress().getPostalCode())
+                .country(order.getShippingAddress().getCountry())
+                .phoneNumber(order.getShippingAddress().getPhoneNumber())
+                .build();
+            response.setShippingAddress(dto);
+        }
+        // ===========================================================
+
+        return response;
     }
 }

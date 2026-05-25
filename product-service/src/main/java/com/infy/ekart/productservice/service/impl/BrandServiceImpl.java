@@ -78,4 +78,12 @@ public class BrandServiceImpl implements BrandService {
             .orElseThrow(() -> new RuntimeException("Brand not found"));
         return new BrandResponse(b.getId(), b.getName(), b.getSlug(), b.getLogoUrl(), b.getDescription());
     }
+    @Override
+    public void deleteBrand(String brandId) {
+        UUID id = UUID.fromString(brandId);
+        Brand brand = brandRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Brand not found with id: " + brandId));
+        brandRepository.delete(brand);
+        log.info("Brand deleted: {}", brand.getName());
+    }
 }

@@ -34,18 +34,26 @@ spring:
       - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
       - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
       - org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
+  boot:
+    admin:
+      client:
+        url:
+        - http://localhost:1111/
 
 # Eureka Service Discovery
 eureka:
   client:
-    enabled: false
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    register-with-eureka: true
+    fetch-registry: true
 
 # Actuator Configuration
 management:
   endpoints:
     web:
       exposure:
-        include: health,info,metrics
+        include: '*'
   endpoint:
     health:
       show-details: always
@@ -56,7 +64,7 @@ app:
   version: 1.0.0
   client:
     cart-service:
-      url: http://localhost:8082
+      url: http://localhost:8080/api/v1/carts/
 
 # Logging
 logging:
@@ -65,7 +73,6 @@ logging:
     com.infy.ekart.productservice: DEBUG
     org.hibernate.SQL: WARN
     org.springframework.security: INFO
-
 # Springdoc OpenAPI Configuration
 springdoc:
   api-docs:
@@ -76,6 +83,9 @@ springdoc:
     enabled: true
     operationsSorter: method
     tagsSorter: alpha
+    urls:
+    - name: product-service
+      url: /product-doc
   packages-to-scan: com.infy.ekart.productservice.controller
   show-actuator: false
   show-spring-cloud-functions: false

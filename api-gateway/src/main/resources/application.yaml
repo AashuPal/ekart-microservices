@@ -6,41 +6,86 @@ spring:
     name: api-gateway
   main:
     web-application-type: reactive
+  security:
+    jwt:
+      secret: mysupersecurekeymysupersecurekey12345678
+      expiration: 3600000
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+      - org.springframework.boot.autoconfigure.security.reactive.ReactiveSecurityAutoConfiguration
   cloud:
     gateway:
       routes:
+        # ---------- Auth Service ----------
         - id: auth-service
           uri: http://localhost:8081
           predicates:
             - Path=/auth/**
+
+        # ---------- Auth Service – Profile Addresses ----------
+        - id: auth-service-addresses
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/auth/addresses/**
+          filters:
+            - RewritePath=/api/auth/addresses, /api/addresses
+            - PreFlightFilter
+
+        # ---------- Product Service ----------
         - id: product-service
           uri: http://localhost:8083
           predicates:
-            - Path=/api/v1/products/**, /api/v1/categories/**, /api/v1/brands/**
+            - Path=/api/v1/products/**, /api/v1/categories/**, /api/v1/brands/**, /api/v1/search/**
+
+        # ---------- Product Service Docs (proxied to avoid CORS) ----------
+        - id: product-service-docs
+          uri: http://localhost:8083
+          predicates:
+            - Path=/product-docs
+          filters:
+            - RewritePath=/product-docs, /v3/api-docs
+
+        # ---------- Cart Service ----------
         - id: cart-service
           uri: http://localhost:8082
           predicates:
             - Path=/api/v1/carts/**
           filters:
             - PreFlightFilter
+
+        # ---------- Order Service (existing) ----------
         - id: order-service
           uri: http://localhost:8086
           predicates:
             - Path=/api/v1/orders/**
           filters:
             - PreFlightFilter
+
+        # ---------- Order Service – Shipping Addresses ----------
+        - id: order-service-addresses
+          uri: http://localhost:8086          # ← CHANGED TO 8086
+          predicates:
+            - Path=/api/addresses/**
+          filters:
+            - PreFlightFilter
+
+        # ---------- Payment Service ----------
         - id: payment-service
           uri: http://localhost:8084
           predicates:
             - Path=/api/v1/payments/**
           filters:
             - PreFlightFilter
+
+        # ---------- Notification Service ----------
         - id: notification-service
           uri: http://localhost:8085
           predicates:
             - Path=/api/v1/email/**, /api/v1/send-welcome, /api/v1/verify-code,
               /api/v1/order-confirmation, /api/v1/forgot-password, /api/v1/verify-google,
               /api/v1/shipping-update, /api/v1/payment-confirmation
+
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
       globalcors:
@@ -50,26 +95,22 @@ spring:
             allowedMethods: "*"
             allowedHeaders: "*"
             allowCredentials: true
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
 
-  # Added to fix DataSource auto‑configuration
-  datasource:
-    url: jdbc:h2:mem:testdb
-    driverClassName: org.h2.Driver
-    username: sa
-    password:
-  jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-    hibernate:
-      ddl-auto: update
+  boot:
+    admin:
+      client:
+        url: http://localhost:1111/
 
-  security:
-    jwt:
-      secret: mysupersecurekeymysupersecurekey12345678
-      expiration: 3600000
-  autoconfigure:
-    exclude: 
-      - org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
-      - org.springframework.boot.autoconfigure.security.reactive.ReactiveSecurityAutoConfiguration
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    register-with-eureka: true
+    fetch-registry: true
 
 resilience4j:
   circuitbreaker:
@@ -91,7 +132,7 @@ springdoc:
       - name: auth-service
         url: http://localhost:8081/v3/api-docs
       - name: product-service
-        url: http://localhost:8083/v3/api-docs
+        url: /product-docs
       - name: cart-service
         url: http://localhost:8082/v3/api-docs
       - name: order-service
@@ -105,7 +146,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info,gateway
+        include: '*'
 
 logging:
   level:

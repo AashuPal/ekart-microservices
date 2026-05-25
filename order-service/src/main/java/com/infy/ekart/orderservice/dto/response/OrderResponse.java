@@ -26,6 +26,7 @@ public class OrderResponse {
     private LocalDateTime updatedAt;
     private LocalDateTime deliveredAt;
     private LocalDateTime cancelledAt;
+    private ShippingAddressDTO shippingAddress;
 
     public OrderResponse(UUID id, String orderNumber, UUID userId, String userEmail,
                          String userName, String status, BigDecimal subtotal, BigDecimal discount,
@@ -76,4 +77,10 @@ public class OrderResponse {
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public LocalDateTime getDeliveredAt() { return deliveredAt; }
     public LocalDateTime getCancelledAt() { return cancelledAt; }
+    public ShippingAddressDTO getShippingAddress() {
+        return shippingAddress;
+    }
+    public void setShippingAddress(ShippingAddressDTO shippingAddress) {
+        this.shippingAddress = shippingAddress;
+    }
 }

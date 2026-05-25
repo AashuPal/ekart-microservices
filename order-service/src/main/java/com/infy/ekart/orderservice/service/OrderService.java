@@ -19,4 +19,6 @@ public interface OrderService {
     OrderResponse cancelOrder(String orderId);
 
     OrderResponse getOrderByNumber(String orderNumber);
+
+    OrderListResponse getAllOrders(int page, int size);
 }

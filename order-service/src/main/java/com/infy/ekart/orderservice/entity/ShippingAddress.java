@@ -11,6 +11,14 @@ public class ShippingAddress {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    // ---- NEW FIELDS ----
+    @Column(name = "customer_email", nullable = false)
+    private String customerEmail;
+
+    @Column(name = "is_default", nullable = false)
+    private Boolean isDefault = false;
+    // -------------------
+
     @Column(name = "full_name", nullable = false)
     private String fullName;
 
@@ -32,12 +40,23 @@ public class ShippingAddress {
     @Column(name = "country", nullable = false)
     private String country;
 
-    @Column(name = "phone_number", nullable = false)
+    @Column(name = "phone_number")
     private String phoneNumber;
 
-    // Getters and Setters
+    // ---- GETTERS & SETTERS (keep existing ones, add new ones) ----
     public UUID getId() { return id; }
     public void setId(UUID id) { this.id = id; }
+
+    public String getCustomerEmail() { return customerEmail; }
+    public void setCustomerEmail(String customerEmail) { this.customerEmail = customerEmail; }
+
+    public Boolean getIsDefault() { 
+        return isDefault;
+    }
+
+    public void setIsDefault(Boolean isDefault) {
+        this.isDefault = isDefault;
+    }
 
     public String getFullName() { return fullName; }
     public void setFullName(String fullName) { this.fullName = fullName; }

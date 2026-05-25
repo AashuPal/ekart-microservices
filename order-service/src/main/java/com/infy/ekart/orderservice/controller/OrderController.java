@@ -35,11 +35,22 @@ public class OrderController {
 
     @GetMapping
     public ResponseEntity<OrderListResponse> getUserOrders(
-            @RequestParam String userId,
+            @RequestParam(required = false) String userId,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        OrderListResponse response = orderService.getUserOrders(userId, page, size);
-        return ResponseEntity.ok(response);
+            @RequestParam(defaultValue = "10") int size,
+            @RequestHeader(value = "X-User-Role", defaultValue = "") String role) {
+
+        // Admin wants all orders → no userId, but must have admin role
+        if ("ROLE_ADMIN".equals(role) && (userId == null || userId.isEmpty())) {
+            return ResponseEntity.ok(orderService.getAllOrders(page, size));
+        }
+
+        // Regular user (or admin fetching their own) – userId required
+        if (userId == null || userId.isEmpty()) {
+            throw new IllegalArgumentException("userId is required");
+        }
+
+        return ResponseEntity.ok(orderService.getUserOrders(userId, page, size));
     }
 
     @PutMapping("/{orderId}/status")
