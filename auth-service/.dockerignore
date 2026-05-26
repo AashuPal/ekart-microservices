@@ -1,0 +1,14 @@
+target
+logs
+.git
+.gitmodules
+Dockerfile
+*.log
+*.md
+*.iml
+.idea
+.vscode
+node_modules
+*.class
+*.jar
+*.war
