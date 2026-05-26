@@ -1,0 +1,111 @@
+version: '3.8'
+services:
+  config-server:
+    build: ./config-server
+    container_name: config-server
+    ports:
+      - "8888:8888"
+    environment:
+      - SPRING_PROFILES_ACTIVE=default
+
+  service-registry:
+    build: ./Service-Registry
+    container_name: service-registry
+    ports:
+      - "8761:8761"
+    environment:
+      - CONFIG_SERVER_URI=http://config-server:8888
+    depends_on:
+      - config-server
+
+  api-gateway:
+    build: ./api-gateway
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      - CONFIG_SERVER_URI=http://config-server:8888
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
+    depends_on:
+      - config-server
+      - service-registry
+
+  auth-service:
+    build: ./auth-service
+    container_name: auth-service
+    environment:
+      - CONFIG_SERVER_URI=http://config-server:8888
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
+    depends_on:
+      - config-server
+      - service-registry
+
+  product-service:
+    build: ./product-service
+    container_name: product-service
+    environment:
+      - CONFIG_SERVER_URI=http://config-server:8888
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
+    depends_on:
+      - config-server
+      - service-registry
+
+  cart-service:
+    build: ./cart-service
+    container_name: cart-service
+    environment:
+      - CONFIG_SERVER_URI=http://config-server:8888
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
+    depends_on:
+      - config-server
+      - service-registry
+
+  order-service:
+    build: ./order-service
+    container_name: order-service
+    environment:
+      - CONFIG_SERVER_URI=http://config-server:8888
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
+    depends_on:
+      - config-server
+      - service-registry
+
+  payment-service:
+    build: ./payment-service
+    container_name: payment-service
+    environment:
+      - CONFIG_SERVER_URI=http://config-server:8888
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
+    depends_on:
+      - config-server
+      - service-registry
+
+  notification-service:
+    build: ./notification-service
+    container_name: notification-service
+    environment:
+      - CONFIG_SERVER_URI=http://config-server:8888
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
+    depends_on:
+      - config-server
+      - service-registry
+
+  admin-server:
+    build: ./Admin-Server
+    container_name: admin-server
+    environment:
+      - CONFIG_SERVER_URI=http://config-server:8888
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
+    depends_on:
+      - config-server
+      - service-registry
+
+  discovery-service:
+    build: ./discovery-service
+    container_name: discovery-service
+    environment:
+      - CONFIG_SERVER_URI=http://config-server:8888
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
+    depends_on:
+      - config-server
+      - service-registry
