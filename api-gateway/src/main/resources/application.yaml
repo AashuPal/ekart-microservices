@@ -8,7 +8,7 @@ spring:
     web-application-type: reactive
   security:
     jwt:
-      secret: mysupersecurekeymysupersecurekey12345678
+      secret: ${JWT_SECRET}
       expiration: 3600000
   autoconfigure:
     exclude:

@@ -1,0 +1,116 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: auth-service
+  datasource:
+    url: jdbc:mysql://gateway01.ap-northeast-1.prod.aws.tidbcloud.com:4000/ekart_auth_service?sslMode=VERIFY_IDENTITY&enabledTLSProtocols=TLSv1.2,TLSv1.3&serverTimezone=UTC
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  data:
+    redis:
+      host: localhost
+      port: 6379
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
+  boot:
+    admin:
+      client:
+        url:
+        - http://localhost:1111/
+  main:
+    allow-bean-definition-overriding: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    register-with-eureka: true
+    fetch-registry: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+        - '*'
+  health:
+    redis:
+      enabled: false
+jwt:
+  secret: JWT_SECRET
+  expiration: 3600000
+  refresh-expiration: 604800000
+
+google:
+  client-id: ${GOOGLE_CLIENTID}
+  client-secret: ${GOOGLE_CLIENTSE}
+  redirect-uri: https://ekart-frontend.onrender.com/auth/google/callback
+
+twilio:
+  account-sid: ${TWILLO_SID}
+  auth-token: ${TWILLO_TOKEN}
+  phone-number: ${TWILLO_NUMBER}
+
+app:
+  base-url: https://ekart-frontend.onrender.com
+  admin:
+    email: admin@ekart.com
+    password: ${ADMIN_PASSWORD}
+    name: Super Admin
+    phone: "+91-9999999999"
+    role: ROLE_ADMIN
+  default-user:
+    email: user@ekart.com
+    password: ${DEFAULTU_PWD}
+    name: Test User
+    phone: "+91-8888888888"
+    role: ROLE_USER
+  email:
+    verification-enabled: true
+    reset-password-enabled: true
+
+logging:
+  file:
+    path: logs/
+    name: logs/auth-service.log
+  logback:
+    rollingpolicy:
+      max-file-size: 10MB
+      max-history: 30
+  level:
+    root: INFO
+    com.infy.ekart: DEBUG
+    org.springframework.security: INFO
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+    operationsSorter: method
+    tagsSorter: alpha
+    try-it-out-enabled: true
