@@ -67,7 +67,7 @@ jwt:
 google:
   client-id: ${GOOGLE_CLIENTID}
   client-secret: ${GOOGLE_CLIENTSE}
-  redirect-uri: https://ekart-frontend.onrender.com/auth/google/callback
+  redirect-uri: https://ekart-frontend-g20a.onrender.com/auth/google/callback
 
 twilio:
   account-sid: ${TWILLO_SID}
