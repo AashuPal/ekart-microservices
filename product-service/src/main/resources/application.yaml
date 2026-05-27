@@ -1,5 +1,5 @@
 server:
-  port: 8083
+  port: ${PORT:8083}
 
 spring:
   application:
@@ -38,13 +38,13 @@ spring:
     admin:
       client:
         url:
-        - http://localhost:1111/
+        - ${SPRING_BOOT_ADMIN_URL:http://localhost:1111/}
 
 # Eureka Service Discovery
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: ${EUREKA_SERVER_URL:http://service-registry:8761/eureka/}
     register-with-eureka: true
     fetch-registry: true
 
