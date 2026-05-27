@@ -75,7 +75,7 @@ twilio:
   phone-number: ${TWILLO_NUMBER}
 
 app:
-  base-url: https://ekart-frontend.onrender.com
+  base-url: https://ekart-frontend-g20a.onrender.com
   admin:
     email: admin@ekart.com
     password: ${ADMIN_PASSWORD}
