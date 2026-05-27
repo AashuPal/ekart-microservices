@@ -19,13 +19,13 @@ spring:
       routes:
         # ---------- Auth Service ----------
         - id: auth-service
-          uri: ${AUTH_SERVICE_URL:http://localhost:8081}          # ← CHANGED from localhost:8081
+          uri: ${AUTH_SERVICE_URL:http://localhost:8081}        
           predicates:
             - Path=/auth/**
 
         # ---------- Auth Service – Profile Addresses ----------
         - id: auth-service-addresses
-          uri: ${AUTH_SERVICE_URL:http://localhost:8081}           # ← CHANGED from localhost:8081
+          uri: ${AUTH_SERVICE_URL:http://localhost:8081}           
           predicates:
             - Path=/api/auth/addresses/**
           filters:
@@ -34,13 +34,13 @@ spring:
 
         # ---------- Product Service ----------
         - id: product-service
-          uri: ${PRODUCT_SERVICE_URL:http://localhost:8083}        # ← CHANGED from localhost:8083
+          uri: ${PRODUCT_SERVICE_URL:http://localhost:8083}        
           predicates:
             - Path=/api/v1/products/**, /api/v1/categories/**, /api/v1/brands/**, /api/v1/search/**
 
         # ---------- Product Service Docs (proxied to avoid CORS) ----------
         - id: product-service-docs
-          uri: ${PRODUCT_SERVICE_URL:http://localhost:8083}       # ← CHANGED from localhost:8083
+          uri: ${PRODUCT_SERVICE_URL:http://localhost:8083}      
           predicates:
             - Path=/product-docs
           filters:
@@ -48,7 +48,7 @@ spring:
 
         # ---------- Cart Service ----------
         - id: cart-service
-          uri: ${CART_SERVICE_URL:http://localhost:8082}           # ← CHANGED from localhost:8082
+          uri: ${CART_SERVICE_URL:http://localhost:8082}          
           predicates:
             - Path=/api/v1/carts/**
           filters:
@@ -56,7 +56,7 @@ spring:
 
         # ---------- Order Service (existing) ----------
         - id: order-service
-          uri: ${ORDER_SERVICE_URL:http://localhost:8086}          # ← CHANGED from localhost:8086
+          uri: ${ORDER_SERVICE_URL:http://localhost:8086}         
           predicates:
             - Path=/api/v1/orders/**
           filters:
@@ -64,7 +64,7 @@ spring:
 
         # ---------- Order Service – Shipping Addresses ----------
         - id: order-service-addresses
-          uri: ${ORDER_SERVICE_URL:http://localhost:8086}          # ← CHANGED from localhost:8086
+          uri: ${ORDER_SERVICE_URL:http://localhost:8086}          
           predicates:
             - Path=/api/addresses/**
           filters:
@@ -72,7 +72,7 @@ spring:
 
         # ---------- Payment Service ----------
         - id: payment-service
-          uri: ${PAYMENT_SERVICE_URL:http://localhost:8084}        # ← CHANGED from localhost:8084
+          uri: ${PAYMENT_SERVICE_URL:http://localhost:8084}        
           predicates:
             - Path=/api/v1/payments/**
           filters:
@@ -80,7 +80,7 @@ spring:
 
         # ---------- Notification Service ----------
         - id: notification-service
-          uri: ${NOTIFICATION_SERVICE_URL:http://localhost:8085}   # ← CHANGED from localhost:8085
+          uri: ${NOTIFICATION_SERVICE_URL:http://localhost:8085}   
           predicates:
             - Path=/api/v1/email/**, /api/v1/send-welcome, /api/v1/verify-code,
               /api/v1/order-confirmation, /api/v1/forgot-password, /api/v1/verify-google,
@@ -105,12 +105,12 @@ spring:
   boot:
     admin:
       client:
-        url: http://localhost:1111/
+        url: ${SPRING_BOOT_ADMIN_URL:http://localhost:1111/}
 
 eureka:
   client:
     service-url:
-      defaultZone: http://service-registry:8761/eureka/
+      defaultZone: ${EUREKA_SERVER_URL:http://service-registry:8761/eureka/}
     register-with-eureka: true
     fetch-registry: true
 
