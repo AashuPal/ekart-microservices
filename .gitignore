@@ -1,43 +1,21 @@
-# Compiled files
-target/
+# Compiled Java classes
+**/target/
 *.class
-*.jar
-*.war
 
-# IDE
+# IDE files
 .idea/
 *.iml
-*.iws
-*.ipr
-.project
-.classpath
-.settings/
 .vscode/
-*.swp
-*.swo
-
-# OS
-.DS_Store
-Thumbs.db
 
 # Logs
-logs/
 *.log
+logs/
 
-# Environment & secrets
+# Environment secrets
 .env
-*.env
-# Maven / Gradle
-.mvn/wrapper/maven-wrapper.jar
-gradle/
-build/
-out/
-
-# Node (if any frontend inside)
+# Node modules
 node_modules/
-dist/
 
-# Other
-*.bak
-*.tmp
-*.temp
+# OS metadata
+.DS_Store
+Thumbs.db

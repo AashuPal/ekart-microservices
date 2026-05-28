@@ -3,7 +3,9 @@ package com.infy.ekart.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+
 import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
@@ -12,9 +14,11 @@ import java.util.Date;
 
 @Component
 public class JwtUtil {
+	    @Value("${jwt.secret}")
+	    private String secret;
 
-    private final String secret = "mysupersecurekeymysupersecurekey12345678";
-    private final long expirationMs = 3600000;
+	    @Value("${jwt.expiration}")
+	    private long expirationMs;
 
     private Key getSigningKey() {
         return new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8),

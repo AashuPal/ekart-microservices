@@ -23,7 +23,7 @@ public class EmailService {
         this.mailSender = mailSender;
     }
 
-    // Verification link (no hardcoded URL)
+    // Verification link
     public void sendVerificationLink(String to, String name, String token) {
         String link = baseUrl + "/verify?token=" + token;
         String html = String.format("""
@@ -40,7 +40,7 @@ public class EmailService {
         sendHtml(to, "Verify your eKart email", html);
     }
 
-    // Password reset (no hardcoded URL)
+    // Password reset 
     public void sendPasswordResetEmail(String to, String resetToken) {
         String link = baseUrl + "/reset-password?token=" + resetToken;
         sendHtml(to, "Reset your eKart password",
