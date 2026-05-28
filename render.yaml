@@ -6,7 +6,6 @@ services:
     plan: free
     healthCheckPath: /actuator/health
     dockerfilePath: ./service-registry/Dockerfile
-    privateService: false
     envVars:
       - key: PORT
         value: "8761"
@@ -18,7 +17,6 @@ services:
     plan: free
     healthCheckPath: /actuator/health
     dockerfilePath: ./admin-server/Dockerfile
-    privateService: false
     envVars:
       - key: PORT
         value: "1111"
@@ -34,7 +32,6 @@ services:
     plan: free
     healthCheckPath: /actuator/health
     dockerfilePath: ./auth-service/Dockerfile
-    privateService: true
     envVars:
       - key: PORT
         value: "8081"
@@ -84,7 +81,6 @@ services:
     plan: free
     healthCheckPath: /actuator/health
     dockerfilePath: ./cart-service/Dockerfile
-    privateService: true
     envVars:
       - key: PORT
         value: "8082"
@@ -111,7 +107,6 @@ services:
     plan: free
     healthCheckPath: /actuator/health
     dockerfilePath: ./product-service/Dockerfile
-    privateService: true
     envVars:
       - key: PORT
         value: "8083"
@@ -136,7 +131,6 @@ services:
     plan: free
     healthCheckPath: /actuator/health
     dockerfilePath: ./payment-service/Dockerfile
-    privateService: true
     envVars:
       - key: PORT
         value: "8084"
@@ -161,7 +155,6 @@ services:
     plan: free
     healthCheckPath: /actuator/health
     dockerfilePath: ./notification-service/Dockerfile
-    privateService: true
     envVars:
       - key: PORT
         value: "8085"
@@ -187,7 +180,6 @@ services:
     plan: free
     healthCheckPath: /actuator/health
     dockerfilePath: ./order-service/Dockerfile
-    privateService: false
     envVars:
       - key: PORT
         value: "8086"
@@ -209,7 +201,6 @@ services:
     plan: free
     healthCheckPath: /actuator/health
     dockerfilePath: ./api-gateway/Dockerfile
-    privateService: false
     envVars:
       - key: PORT
         value: "8080"
