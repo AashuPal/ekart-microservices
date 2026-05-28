@@ -2,13 +2,17 @@
 # Stage 1 – Build
 # ─────────────────────────────────────────────
 FROM maven:3.9-eclipse-temurin-21 AS build
+
+# ARG to pass service folder name from render.yaml
+ARG SERVICE_NAME
 WORKDIR /app
 
-COPY . .
+# Copy only the specific service folder
+COPY ${SERVICE_NAME}/ .
+
 RUN mvn -B -DskipTests clean package -q \
-    && echo "=== Finding JARs ===" \
-    && find . -name "*.jar" ! -name "*sources*" ! -name "*javadoc*" \
-    && echo "=== Done ==="
+    && echo "=== JAR ===" \
+    && find . -name "*.jar" ! -name "*sources*" ! -name "*javadoc*"
 
 # ─────────────────────────────────────────────
 # Stage 2 – Runtime
