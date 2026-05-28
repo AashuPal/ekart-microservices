@@ -1,21 +1,23 @@
-# Compiled Java classes
-**/target/
-*.class
+cat > .gitignore << EOF
+# Maven build output
+target/
+!.mvn/wrapper/maven-wrapper.jar
 
-# IDE files
+# IDE
 .idea/
 *.iml
 .vscode/
+*.swp
 
 # Logs
-*.log
 logs/
+*.log
 
-# Environment secrets
+# Environment files (NEVER commit real secrets)
 .env
-# Node modules
-node_modules/
+*.env.local
 
-# OS metadata
+# OS files
 .DS_Store
 Thumbs.db
+EOF

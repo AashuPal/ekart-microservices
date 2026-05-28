@@ -1,11 +1,11 @@
-FROM maven:3.9.4-eclipse-temurin-17 AS build
-WORKDIR /workspace
-COPY . .
-RUN if [ -f mvnw ]; then chmod +x mvnw && ./mvnw -B -DskipTests package; else mvn -B -DskipTests package; fi
-
-FROM eclipse-temurin:17-jre
+FROM maven:3.9-eclipse-temurin-21 AS build
 WORKDIR /app
-ARG JAR_FILE=target/*.jar
-COPY --from=build /workspace/${JAR_FILE} app.jar
-EXPOSE 8080
-ENTRYPOINT ["java","-jar","/app/app.jar"]
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean package -DskipTests
+
+FROM eclipse-temurin:21-jre
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
+EXPOSE 8083
+ENTRYPOINT ["java", "-jar", "app.jar"]
