@@ -19,7 +19,7 @@ spring:
       routes:
         # ==================== SWAGGER DOCS (must come first) ====================
         - id: auth-service-docs
-          uri: ${AUTH_SERVICE_URL:http://localhost:8081}
+          uri: ${AUTH_SERVICE_URL:http://auth-service:8081}
           predicates:
             - Path=/auth/v3/api-docs
           filters:
