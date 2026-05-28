@@ -4,9 +4,11 @@
 FROM maven:3.9-eclipse-temurin-21 AS build
 WORKDIR /app
 
-# Copy everything at once (handles any project structure)
 COPY . .
-RUN mvn -B -DskipTests clean package -q
+RUN mvn -B -DskipTests clean package -q \
+    && echo "=== Finding JARs ===" \
+    && find . -name "*.jar" ! -name "*sources*" ! -name "*javadoc*" \
+    && echo "=== Done ==="
 
 # ─────────────────────────────────────────────
 # Stage 2 – Runtime
@@ -14,11 +16,9 @@ RUN mvn -B -DskipTests clean package -q
 FROM eclipse-temurin:21-jre
 WORKDIR /app
 
-# Install curl for HEALTHCHECK
 RUN apt-get update && apt-get install -y --no-install-recommends curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Non-root user for security
 RUN groupadd -r appuser && useradd -r -g appuser appuser
 COPY --from=build /app/target/*.jar app.jar
 RUN chown appuser:appuser app.jar
