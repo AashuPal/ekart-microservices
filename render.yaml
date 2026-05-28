@@ -1,0 +1,237 @@
+services:
+  # 1. SERVICE REGISTRY
+  - name: service-registry
+    type: web
+    env: docker
+    plan: free
+    healthCheckPath: /actuator/health
+    dockerfilePath: ./service-registry/Dockerfile
+    privateService: true
+    envVars:
+      - key: PORT
+        value: "8761"
+
+  # 2. ADMIN SERVER
+  - name: admin-server
+    type: web
+    env: docker
+    plan: free
+    healthCheckPath: /actuator/health
+    dockerfilePath: ./admin-server/Dockerfile
+    privateService: true
+    envVars:
+      - key: PORT
+        value: "1111"
+      - key: EUREKA_SERVER_URL
+        value: http://service-registry:8761/eureka/
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+
+  # 3. AUTH SERVICE
+  - name: auth-service
+    type: web
+    env: docker
+    plan: free
+    healthCheckPath: /actuator/health
+    dockerfilePath: ./auth-service/Dockerfile
+    privateService: true
+    envVars:
+      - key: PORT
+        value: "8081"
+      - key: EUREKA_SERVER_URL
+        value: http://service-registry:8761/eureka/
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: SPRING_BOOT_ADMIN_URL
+        value: http://admin-server:1111/
+      - key: DB_USERNAME
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: MAIL_USERNAME
+        sync: false
+      - key: MAIL_PASSWORD
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: GOOGLE_CLIENTID
+        sync: false
+      - key: GOOGLE_CLIENTSE
+        sync: false
+      - key: GOOGLE_CALLBACK_URI
+        sync: false
+      - key: TWILLO_SID
+        sync: false
+      - key: TWILLO_TOKEN
+        sync: false
+      - key: TWILLO_NUMBER
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: DEFAULTU_PWD
+        sync: false
+      - key: APP_BASE_URL
+        value: https://ekart-frontend-g20a.onrender.com
+      - key: REDIS_HOST
+        value: redis-host   # optional – set if using Redis
+      - key: REDIS_PORT
+        value: "6379"
+
+  # 4. CART SERVICE
+  - name: cart-service
+    type: web
+    env: docker
+    plan: free
+    healthCheckPath: /actuator/health
+    dockerfilePath: ./cart-service/Dockerfile
+    privateService: true
+    envVars:
+      - key: PORT
+        value: "8082"
+      - key: EUREKA_SERVER_URL
+        value: http://service-registry:8761/eureka/
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: SPRING_BOOT_ADMIN_URL
+        value: http://admin-server:1111/
+      - key: DB_USERNAME
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      # 👇 Override localhost URLs with internal service names
+      - key: APP_CLIENT_INVENTORY-SERVICE_URL
+        value: http://product-service:8083/api/v1/products
+      - key: APP_CLIENT_ORDER-SERVICE_URL
+        value: http://order-service:8086/api/v1/orders
+
+  # 5. PRODUCT SERVICE
+  - name: product-service
+    type: web
+    env: docker
+    plan: free
+    healthCheckPath: /actuator/health
+    dockerfilePath: ./product-service/Dockerfile
+    privateService: true
+    envVars:
+      - key: PORT
+        value: "8083"
+      - key: EUREKA_SERVER_URL
+        value: http://service-registry:8761/eureka/
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: SPRING_BOOT_ADMIN_URL
+        value: http://admin-server:1111/
+      - key: DB_USERNAME
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      # 👇 Override cart-service URL
+      - key: APP_CLIENT_CART-SERVICE_URL
+        value: http://cart-service:8082/api/v1/carts/
+
+  # 6. PAYMENT SERVICE
+  - name: payment-service
+    type: web
+    env: docker
+    plan: free
+    healthCheckPath: /actuator/health
+    dockerfilePath: ./payment-service/Dockerfile
+    privateService: true
+    envVars:
+      - key: PORT
+        value: "8084"
+      - key: EUREKA_SERVER_URL
+        value: http://service-registry:8761/eureka/
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: SPRING_BOOT_ADMIN_URL
+        value: http://admin-server:1111/
+      - key: DB_USERNAME
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      # 👇 Override order-service URL
+      - key: APP_CLIENT_ORDER-SERVICE_URL
+        value: http://order-service:8086/api/v1/orders
+
+  # 7. NOTIFICATION SERVICE
+  - name: notification-service
+    type: web
+    env: docker
+    plan: free
+    healthCheckPath: /actuator/health
+    dockerfilePath: ./notification-service/Dockerfile
+    privateService: true
+    envVars:
+      - key: PORT
+        value: "8085"
+      - key: EUREKA_SERVER_URL
+        value: http://service-registry:8761/eureka/
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: SPRING_BOOT_ADMIN_URL
+        value: http://admin-server:1111/
+      - key: MAIL_USERNAME
+        sync: false
+      - key: MAIL_PASSWORD
+        sync: false
+      - key: MAIL_FROM
+        sync: false
+      - key: APP_BASE_URL
+        value: https://ekart-frontend-g20a.onrender.com
+
+  # 8. ORDER SERVICE
+  - name: order-service
+    type: web
+    env: docker
+    plan: free
+    healthCheckPath: /actuator/health
+    dockerfilePath: ./order-service/Dockerfile
+    privateService: true
+    envVars:
+      - key: PORT
+        value: "8086"
+      - key: EUREKA_SERVER_URL
+        value: http://service-registry:8761/eureka/
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: SPRING_BOOT_ADMIN_URL
+        value: http://admin-server:1111/
+      - key: DB_USERNAME
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+
+  # 9. API GATEWAY (public)
+  - name: api-gateway
+    type: web
+    env: docker
+    plan: free
+    healthCheckPath: /actuator/health
+    dockerfilePath: ./api-gateway/Dockerfile
+    privateService: false
+    envVars:
+      - key: PORT
+        value: "8080"
+      - key: EUREKA_SERVER_URL
+        value: http://service-registry:8761/eureka/
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: SPRING_BOOT_ADMIN_URL
+        value: http://admin-server:1111/
+      - key: JWT_SECRET
+        sync: false
+      - key: AUTH_SERVICE_URL
+        value: http://auth-service:8081
+      - key: CART_SERVICE_URL
+        value: http://cart-service:8082
+      - key: PRODUCT_SERVICE_URL
+        value: http://product-service:8083
+      - key: PAYMENT_SERVICE_URL
+        value: http://payment-service:8084
+      - key: NOTIFICATION_SERVICE_URL
+        value: http://notification-service:8085
+      - key: ORDER_SERVICE_URL
+        value: http://order-service:8086
+      - key: APP_BASE_URL
+        value: https://ekart-frontend-g20a.onrender.com
