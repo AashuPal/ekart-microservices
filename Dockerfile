@@ -1,17 +1,24 @@
+# ─────────────────────────────────────────────
+# Stage 1 – Build
+# ─────────────────────────────────────────────
 FROM maven:3.9-eclipse-temurin-21 AS build
 WORKDIR /app
-COPY pom.xml .
-RUN mvn -B dependency:go-offline -q
-COPY src ./src
+
+# Copy everything at once (handles any project structure)
+COPY . .
 RUN mvn -B -DskipTests clean package -q
 
+# ─────────────────────────────────────────────
+# Stage 2 – Runtime
+# ─────────────────────────────────────────────
 FROM eclipse-temurin:21-jre
 WORKDIR /app
 
-# ✅ Install curl for healthcheck
+# Install curl for HEALTHCHECK
 RUN apt-get update && apt-get install -y --no-install-recommends curl \
     && rm -rf /var/lib/apt/lists/*
 
+# Non-root user for security
 RUN groupadd -r appuser && useradd -r -g appuser appuser
 COPY --from=build /app/target/*.jar app.jar
 RUN chown appuser:appuser app.jar
@@ -19,7 +26,6 @@ USER appuser
 
 ENV JAVA_OPTS="-Xmx512m -Xms256m -XX:+UseG1GC -XX:+ExitOnOutOfMemoryError"
 
-# ✅ Port passed at build time — default 8080
 ARG PORT=8080
 ENV PORT=${PORT}
 EXPOSE ${PORT}
