@@ -6,7 +6,7 @@ services:
     plan: free
     healthCheckPath: /actuator/health
     dockerfilePath: ./service-registry/Dockerfile
-    privateService: true
+    privateService: false
     envVars:
       - key: PORT
         value: "8761"
@@ -18,7 +18,7 @@ services:
     plan: free
     healthCheckPath: /actuator/health
     dockerfilePath: ./admin-server/Dockerfile
-    privateService: true
+    privateService: false
     envVars:
       - key: PORT
         value: "1111"
@@ -187,7 +187,7 @@ services:
     plan: free
     healthCheckPath: /actuator/health
     dockerfilePath: ./order-service/Dockerfile
-    privateService: true
+    privateService: false
     envVars:
       - key: PORT
         value: "8086"
