@@ -63,7 +63,7 @@ spring:
         # ==================== ACTUAL SERVICE ROUTES ====================
         # ---------- Auth Service ----------
         - id: auth-service
-          uri: ${AUTH_SERVICE_URL:http://localhost:8081}
+          uri: ${AUTH_SERVICE_URL:http://auth-service:8081}
           predicates:
             - Path=/auth/**
           # If auth-service expects paths WITHOUT the /auth prefix, add:
