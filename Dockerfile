@@ -1,21 +1,30 @@
-FROM maven:3.9.6-eclipse-temurin-21 AS build
-WORKDIR /workspace
-COPY . .
-RUN if [ -f mvnw ]; then chmod +x mvnw && ./mvnw -B -DskipTests clean package; else mvn -B -DskipTests clean package; fi \
-    && mkdir -p /workspace/dist \
-    && find . -type f -path '*/target/*' -name '*.jar' ! -name '*-sources.jar' ! -name '*-javadoc.jar' -exec cp {} /workspace/dist/ \; \
-    && echo "=== Build completed ===" && ls -lah /workspace/dist/ && echo "Total JARs: $(ls /workspace/dist/*.jar | wc -l)"
-
-FROM eclipse-temurin:21-jre-jammy AS runtime
+FROM maven:3.9-eclipse-temurin-21 AS build
 WORKDIR /app
-COPY --from=build /workspace/dist/*.jar /app/
+COPY pom.xml .
+RUN mvn -B dependency:go-offline -q
+COPY src ./src
+RUN mvn -B -DskipTests clean package -q
 
-ENV JAVA_OPTS="-Xmx1024m -Xms512m -XX:+UseG1GC -XX:MaxGCPauseMillis=200" \
-    SPRING_PROFILES_ACTIVE="docker"
+FROM eclipse-temurin:21-jre
+WORKDIR /app
 
-EXPOSE 8080
+# ✅ Install curl for healthcheck
+RUN apt-get update && apt-get install -y --no-install-recommends curl \
+    && rm -rf /var/lib/apt/lists/*
 
-HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
-    CMD java -version || exit 1
+RUN groupadd -r appuser && useradd -r -g appuser appuser
+COPY --from=build /app/target/*.jar app.jar
+RUN chown appuser:appuser app.jar
+USER appuser
 
-ENTRYPOINT ["sh","-c","JAR=$(ls /app/api-gateway-*.jar 2>/dev/null | head -n1); if [ -z \"$JAR\" ]; then echo 'ERROR: api-gateway JAR not found in /app'; ls -la /app/; exit 1; fi; echo \"Starting: $JAR with JAVA_OPTS=$JAVA_OPTS\"; exec java $JAVA_OPTS -jar \"$JAR\""]
+ENV JAVA_OPTS="-Xmx512m -Xms256m -XX:+UseG1GC -XX:+ExitOnOutOfMemoryError"
+
+# ✅ Port passed at build time — default 8080
+ARG PORT=8080
+ENV PORT=${PORT}
+EXPOSE ${PORT}
+
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+    CMD curl -f http://localhost:${PORT}/actuator/health || exit 1
+
+ENTRYPOINT ["sh", "-c", "exec java $JAVA_OPTS -jar app.jar"]
