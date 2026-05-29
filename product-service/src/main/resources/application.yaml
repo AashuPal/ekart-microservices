@@ -64,7 +64,7 @@ app:
   version: 1.0.0
   client:
     cart-service:
-      url: http://api-gateway:8080/api/v1/carts/
+      url: ${APP_CLIENT_CART_SERVICE_URL}
 
 # Logging
 logging:
