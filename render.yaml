@@ -4,7 +4,7 @@ services:
     type: web
     env: docker
     plan: free
-    dockerfilePath: ./Service-Registry/Dockerfile
+    rootDir: Service-Registry
     healthCheckPath: /actuator/health
     envVars:
       - key: PORT
@@ -15,7 +15,7 @@ services:
     type: web
     env: docker
     plan: free
-    dockerfilePath: ./Admin-Server/Dockerfile
+    rootDir: Admin-Server
     healthCheckPath: /actuator/health
     envVars:
       - key: PORT
@@ -32,7 +32,7 @@ services:
     type: web
     env: docker
     plan: free
-    dockerfilePath: ./auth-service/Dockerfile
+    rootDir: auth-service
     healthCheckPath: /actuator/health
     envVars:
       - key: PORT
@@ -81,7 +81,7 @@ services:
     type: web
     env: docker
     plan: free
-    dockerfilePath: ./cart-service/Dockerfile
+    rootDir: cart-service
     healthCheckPath: /actuator/health
     envVars:
       - key: PORT
@@ -106,7 +106,7 @@ services:
     type: web
     env: docker
     plan: free
-    dockerfilePath: ./product-service/Dockerfile
+    rootDir: product-service
     healthCheckPath: /actuator/health
     envVars:
       - key: PORT
@@ -129,7 +129,7 @@ services:
     type: web
     env: docker
     plan: free
-    dockerfilePath: ./payment-service/Dockerfile
+    rootDir: payment-service
     healthCheckPath: /actuator/health
     envVars:
       - key: PORT
@@ -152,7 +152,7 @@ services:
     type: web
     env: docker
     plan: free
-    dockerfilePath: ./notification-service/Dockerfile
+    rootDir: notification-service
     healthCheckPath: /actuator/health
     envVars:
       - key: PORT
@@ -177,7 +177,7 @@ services:
     type: web
     env: docker
     plan: free
-    dockerfilePath: ./order-service/Dockerfile
+    rootDir: order-service
     healthCheckPath: /actuator/health
     envVars:
       - key: PORT
@@ -198,7 +198,7 @@ services:
     type: web
     env: docker
     plan: free
-    dockerfilePath: ./api-gateway/Dockerfile
+    rootDir: api-gateway
     healthCheckPath: /actuator/health
     envVars:
       - key: PORT
