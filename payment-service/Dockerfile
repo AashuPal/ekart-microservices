@@ -1,14 +1,14 @@
 FROM maven:3.9-eclipse-temurin-21 AS build
 WORKDIR /app
 COPY . .
-RUN mvn -B -DskipTests clean package -q -pl auth-service -am
+RUN mvn -B -DskipTests clean package -q -pl payment-service -am
 
 FROM eclipse-temurin:21-jre
 WORKDIR /app
 RUN apt-get update && apt-get install -y --no-install-recommends curl \
     && rm -rf /var/lib/apt/lists/*
 RUN groupadd -r appuser && useradd -r -g appuser appuser
-COPY --from=build /app/auth-service/target/*.jar app.jar
+COPY --from=build /app/payment-service/target/*.jar app.jar
 RUN chown appuser:appuser app.jar
 USER appuser
 ENV JAVA_OPTS="-Xmx512m -Xms256m -XX:+UseG1GC -XX:+ExitOnOutOfMemoryError"
