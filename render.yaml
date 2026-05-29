@@ -4,11 +4,8 @@ services:
     type: web
     env: docker
     plan: free
-    dockerfilePath: ./Dockerfile
+    dockerfilePath: ./Service-Registry/Dockerfile
     healthCheckPath: /actuator/health
-    buildArgs:
-      SERVICE_NAME: Service-Registry        # ← Capital S-R (folder name)
-      PORT: "8761"
     envVars:
       - key: PORT
         value: "8761"
@@ -18,11 +15,8 @@ services:
     type: web
     env: docker
     plan: free
-    dockerfilePath: ./Dockerfile
+    dockerfilePath: ./Admin-Server/Dockerfile
     healthCheckPath: /actuator/health
-    buildArgs:
-      SERVICE_NAME: Admin-Server            # ← Capital A-S (folder name)
-      PORT: "1111"
     envVars:
       - key: PORT
         value: "1111"
@@ -38,11 +32,8 @@ services:
     type: web
     env: docker
     plan: free
-    dockerfilePath: ./Dockerfile
+    dockerfilePath: ./auth-service/Dockerfile
     healthCheckPath: /actuator/health
-    buildArgs:
-      SERVICE_NAME: auth-service
-      PORT: "8081"
     envVars:
       - key: PORT
         value: "8081"
@@ -90,11 +81,8 @@ services:
     type: web
     env: docker
     plan: free
-    dockerfilePath: ./Dockerfile
+    dockerfilePath: ./cart-service/Dockerfile
     healthCheckPath: /actuator/health
-    buildArgs:
-      SERVICE_NAME: cart-service
-      PORT: "8082"
     envVars:
       - key: PORT
         value: "8082"
@@ -118,11 +106,8 @@ services:
     type: web
     env: docker
     plan: free
-    dockerfilePath: ./Dockerfile
+    dockerfilePath: ./product-service/Dockerfile
     healthCheckPath: /actuator/health
-    buildArgs:
-      SERVICE_NAME: product-service
-      PORT: "8083"
     envVars:
       - key: PORT
         value: "8083"
@@ -144,11 +129,8 @@ services:
     type: web
     env: docker
     plan: free
-    dockerfilePath: ./Dockerfile
+    dockerfilePath: ./payment-service/Dockerfile
     healthCheckPath: /actuator/health
-    buildArgs:
-      SERVICE_NAME: payment-service
-      PORT: "8084"
     envVars:
       - key: PORT
         value: "8084"
@@ -170,11 +152,8 @@ services:
     type: web
     env: docker
     plan: free
-    dockerfilePath: ./Dockerfile
+    dockerfilePath: ./notification-service/Dockerfile
     healthCheckPath: /actuator/health
-    buildArgs:
-      SERVICE_NAME: notification-service
-      PORT: "8085"
     envVars:
       - key: PORT
         value: "8085"
@@ -198,11 +177,8 @@ services:
     type: web
     env: docker
     plan: free
-    dockerfilePath: ./Dockerfile
+    dockerfilePath: ./order-service/Dockerfile
     healthCheckPath: /actuator/health
-    buildArgs:
-      SERVICE_NAME: order-service
-      PORT: "8086"
     envVars:
       - key: PORT
         value: "8086"
@@ -222,11 +198,8 @@ services:
     type: web
     env: docker
     plan: free
-    dockerfilePath: ./Dockerfile
+    dockerfilePath: ./api-gateway/Dockerfile
     healthCheckPath: /actuator/health
-    buildArgs:
-      SERVICE_NAME: api-gateway
-      PORT: "8080"
     envVars:
       - key: PORT
         value: "8080"
