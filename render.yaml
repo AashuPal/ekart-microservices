@@ -4,7 +4,7 @@ services:
     type: web
     env: docker
     plan: free
-    rootDir: Service-Registry
+    dockerfilePath: ./Service-Registry/Dockerfile   # exact folder name
     healthCheckPath: /actuator/health
     envVars:
       - key: PORT
@@ -15,7 +15,7 @@ services:
     type: web
     env: docker
     plan: free
-    rootDir: Admin-Server
+    dockerfilePath: ./Admin-Server/Dockerfile       # exact folder name
     healthCheckPath: /actuator/health
     envVars:
       - key: PORT
@@ -24,15 +24,14 @@ services:
         value: http://service-registry:8761/eureka/
       - key: SPRING_PROFILES_ACTIVE
         value: prod
-      - key: SPRING_BOOT_ADMIN_URL
-        value: http://admin-server:1111/
+      # Note: Admin Server does not need its own SPRING_BOOT_ADMIN_URL
 
   # 3. AUTH SERVICE
   - name: auth-service
     type: web
     env: docker
     plan: free
-    rootDir: auth-service
+    dockerfilePath: ./auth-service/Dockerfile
     healthCheckPath: /actuator/health
     envVars:
       - key: PORT
@@ -81,7 +80,7 @@ services:
     type: web
     env: docker
     plan: free
-    rootDir: cart-service
+    dockerfilePath: ./cart-service/Dockerfile
     healthCheckPath: /actuator/health
     envVars:
       - key: PORT
@@ -96,9 +95,9 @@ services:
         sync: false
       - key: DB_PASSWORD
         sync: false
-      - key: APP_CLIENT_INVENTORY-SERVICE_URL
+      - key: APP_CLIENT_INVENTORY_SERVICE_URL          # corrected underscore
         value: http://product-service:8083/api/v1/products
-      - key: APP_CLIENT_ORDER-SERVICE_URL
+      - key: APP_CLIENT_ORDER_SERVICE_URL              # corrected underscore
         value: http://order-service:8086/api/v1/orders
 
   # 5. PRODUCT SERVICE
@@ -106,7 +105,7 @@ services:
     type: web
     env: docker
     plan: free
-    rootDir: product-service
+    dockerfilePath: ./product-service/Dockerfile
     healthCheckPath: /actuator/health
     envVars:
       - key: PORT
@@ -121,7 +120,7 @@ services:
         sync: false
       - key: DB_PASSWORD
         sync: false
-      - key: APP_CLIENT_CART-SERVICE_URL
+      - key: APP_CLIENT_CART_SERVICE_URL              # corrected underscore
         value: http://cart-service:8082/api/v1/carts/
 
   # 6. PAYMENT SERVICE
@@ -129,7 +128,7 @@ services:
     type: web
     env: docker
     plan: free
-    rootDir: payment-service
+    dockerfilePath: ./payment-service/Dockerfile
     healthCheckPath: /actuator/health
     envVars:
       - key: PORT
@@ -144,7 +143,7 @@ services:
         sync: false
       - key: DB_PASSWORD
         sync: false
-      - key: APP_CLIENT_ORDER-SERVICE_URL
+      - key: APP_CLIENT_ORDER_SERVICE_URL             # corrected underscore
         value: http://order-service:8086/api/v1/orders
 
   # 7. NOTIFICATION SERVICE
@@ -152,7 +151,7 @@ services:
     type: web
     env: docker
     plan: free
-    rootDir: notification-service
+    dockerfilePath: ./notification-service/Dockerfile
     healthCheckPath: /actuator/health
     envVars:
       - key: PORT
@@ -177,7 +176,7 @@ services:
     type: web
     env: docker
     plan: free
-    rootDir: order-service
+    dockerfilePath: ./order-service/Dockerfile
     healthCheckPath: /actuator/health
     envVars:
       - key: PORT
@@ -198,7 +197,7 @@ services:
     type: web
     env: docker
     plan: free
-    rootDir: api-gateway
+    dockerfilePath: ./api-gateway/Dockerfile
     healthCheckPath: /actuator/health
     envVars:
       - key: PORT
@@ -223,5 +222,7 @@ services:
         value: http://notification-service:8085
       - key: ORDER_SERVICE_URL
         value: http://order-service:8086
+      - key: ADMIN_SERVER_URL                        # optional – for future /admin route
+        value: http://admin-server:1111
       - key: APP_BASE_URL
         value: https://ekart-frontend-g20a.onrender.com
