@@ -1,63 +1,57 @@
 services:
-  # ─────────────────────────────────────────────
   # 1. SERVICE REGISTRY
-  # ─────────────────────────────────────────────
-  - name: Service-Registry
+  - name: service-registry
     type: web
     env: docker
     plan: free
     dockerfilePath: ./Dockerfile
-    dockerContext: ./Service-Registry
     healthCheckPath: /actuator/health
     buildArgs:
+      SERVICE_NAME: Service-Registry        # ← Capital S-R (folder name)
       PORT: "8761"
     envVars:
       - key: PORT
         value: "8761"
 
-  # ─────────────────────────────────────────────
   # 2. ADMIN SERVER
-  # ─────────────────────────────────────────────
-  - name: Admin-Server
+  - name: admin-server
     type: web
     env: docker
     plan: free
     dockerfilePath: ./Dockerfile
-    dockerContext: ./Admin-Server
     healthCheckPath: /actuator/health
     buildArgs:
+      SERVICE_NAME: Admin-Server            # ← Capital A-S (folder name)
       PORT: "1111"
     envVars:
       - key: PORT
         value: "1111"
       - key: EUREKA_SERVER_URL
-        value: http://Service-Registry:8761/eureka/
+        value: http://service-registry:8761/eureka/
       - key: SPRING_PROFILES_ACTIVE
         value: prod
       - key: SPRING_BOOT_ADMIN_URL
-        value: http://Admin-Server:1111/
+        value: http://admin-server:1111/
 
-  # ─────────────────────────────────────────────
   # 3. AUTH SERVICE
-  # ─────────────────────────────────────────────
   - name: auth-service
     type: web
     env: docker
     plan: free
     dockerfilePath: ./Dockerfile
-    dockerContext: ./auth-service
     healthCheckPath: /actuator/health
     buildArgs:
+      SERVICE_NAME: auth-service
       PORT: "8081"
     envVars:
       - key: PORT
         value: "8081"
       - key: EUREKA_SERVER_URL
-        value: http://Service-Registry:8761/eureka/
+        value: http://service-registry:8761/eureka/
       - key: SPRING_PROFILES_ACTIVE
         value: prod
       - key: SPRING_BOOT_ADMIN_URL
-        value: http://Admin-Server:1111/
+        value: http://admin-server:1111/
       - key: DB_USERNAME
         sync: false
       - key: DB_PASSWORD
@@ -91,27 +85,25 @@ services:
       - key: REDIS_PORT
         value: "6379"
 
-  # ─────────────────────────────────────────────
   # 4. CART SERVICE
-  # ─────────────────────────────────────────────
   - name: cart-service
     type: web
     env: docker
     plan: free
     dockerfilePath: ./Dockerfile
-    dockerContext: ./cart-service
     healthCheckPath: /actuator/health
     buildArgs:
+      SERVICE_NAME: cart-service
       PORT: "8082"
     envVars:
       - key: PORT
         value: "8082"
       - key: EUREKA_SERVER_URL
-        value: http://Service-Registry:8761/eureka/
+        value: http://service-registry:8761/eureka/
       - key: SPRING_PROFILES_ACTIVE
         value: prod
       - key: SPRING_BOOT_ADMIN_URL
-        value: http://Admin-Server:1111/
+        value: http://admin-server:1111/
       - key: DB_USERNAME
         sync: false
       - key: DB_PASSWORD
@@ -121,27 +113,25 @@ services:
       - key: APP_CLIENT_ORDER-SERVICE_URL
         value: http://order-service:8086/api/v1/orders
 
-  # ─────────────────────────────────────────────
   # 5. PRODUCT SERVICE
-  # ─────────────────────────────────────────────
   - name: product-service
     type: web
     env: docker
     plan: free
     dockerfilePath: ./Dockerfile
-    dockerContext: ./product-service
     healthCheckPath: /actuator/health
     buildArgs:
+      SERVICE_NAME: product-service
       PORT: "8083"
     envVars:
       - key: PORT
         value: "8083"
       - key: EUREKA_SERVER_URL
-        value: http://Service-Registry:8761/eureka/
+        value: http://service-registry:8761/eureka/
       - key: SPRING_PROFILES_ACTIVE
         value: prod
       - key: SPRING_BOOT_ADMIN_URL
-        value: http://Admin-Server:1111/
+        value: http://admin-server:1111/
       - key: DB_USERNAME
         sync: false
       - key: DB_PASSWORD
@@ -149,27 +139,25 @@ services:
       - key: APP_CLIENT_CART-SERVICE_URL
         value: http://cart-service:8082/api/v1/carts/
 
-  # ─────────────────────────────────────────────
   # 6. PAYMENT SERVICE
-  # ─────────────────────────────────────────────
   - name: payment-service
     type: web
     env: docker
     plan: free
     dockerfilePath: ./Dockerfile
-    dockerContext: ./payment-service
     healthCheckPath: /actuator/health
     buildArgs:
+      SERVICE_NAME: payment-service
       PORT: "8084"
     envVars:
       - key: PORT
         value: "8084"
       - key: EUREKA_SERVER_URL
-        value: http://Service-Registry:8761/eureka/
+        value: http://service-registry:8761/eureka/
       - key: SPRING_PROFILES_ACTIVE
         value: prod
       - key: SPRING_BOOT_ADMIN_URL
-        value: http://Admin-Server:1111/
+        value: http://admin-server:1111/
       - key: DB_USERNAME
         sync: false
       - key: DB_PASSWORD
@@ -177,27 +165,25 @@ services:
       - key: APP_CLIENT_ORDER-SERVICE_URL
         value: http://order-service:8086/api/v1/orders
 
-  # ─────────────────────────────────────────────
   # 7. NOTIFICATION SERVICE
-  # ─────────────────────────────────────────────
   - name: notification-service
     type: web
     env: docker
     plan: free
     dockerfilePath: ./Dockerfile
-    dockerContext: ./notification-service
     healthCheckPath: /actuator/health
     buildArgs:
+      SERVICE_NAME: notification-service
       PORT: "8085"
     envVars:
       - key: PORT
         value: "8085"
       - key: EUREKA_SERVER_URL
-        value: http://Service-Registry:8761/eureka/
+        value: http://service-registry:8761/eureka/
       - key: SPRING_PROFILES_ACTIVE
         value: prod
       - key: SPRING_BOOT_ADMIN_URL
-        value: http://Admin-Server:1111/
+        value: http://admin-server:1111/
       - key: MAIL_USERNAME
         sync: false
       - key: MAIL_PASSWORD
@@ -207,53 +193,49 @@ services:
       - key: APP_BASE_URL
         value: https://ekart-frontend-g20a.onrender.com
 
-  # ─────────────────────────────────────────────
   # 8. ORDER SERVICE
-  # ─────────────────────────────────────────────
   - name: order-service
     type: web
     env: docker
     plan: free
     dockerfilePath: ./Dockerfile
-    dockerContext: ./order-service
     healthCheckPath: /actuator/health
     buildArgs:
+      SERVICE_NAME: order-service
       PORT: "8086"
     envVars:
       - key: PORT
         value: "8086"
       - key: EUREKA_SERVER_URL
-        value: http://Service-Registry:8761/eureka/
+        value: http://service-registry:8761/eureka/
       - key: SPRING_PROFILES_ACTIVE
         value: prod
       - key: SPRING_BOOT_ADMIN_URL
-        value: http://Admin-Server:1111/
+        value: http://admin-server:1111/
       - key: DB_USERNAME
         sync: false
       - key: DB_PASSWORD
         sync: false
 
-  # ─────────────────────────────────────────────
   # 9. API GATEWAY
-  # ─────────────────────────────────────────────
   - name: api-gateway
     type: web
     env: docker
     plan: free
     dockerfilePath: ./Dockerfile
-    dockerContext: ./api-gateway
     healthCheckPath: /actuator/health
     buildArgs:
+      SERVICE_NAME: api-gateway
       PORT: "8080"
     envVars:
       - key: PORT
         value: "8080"
       - key: EUREKA_SERVER_URL
-        value: http://Service-Registry:8761/eureka/
+        value: http://service-registry:8761/eureka/
       - key: SPRING_PROFILES_ACTIVE
         value: prod
       - key: SPRING_BOOT_ADMIN_URL
-        value: http://Admin-Server:1111/
+        value: http://admin-server:1111/
       - key: JWT_SECRET
         sync: false
       - key: AUTH_SERVICE_URL
