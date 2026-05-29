@@ -5,11 +5,11 @@ COPY . .
 RUN mvn -B -DskipTests clean package -q -pl ${SERVICE_NAME} -am
 
 FROM eclipse-temurin:21-jre
+ARG SERVICE_NAME
 WORKDIR /app
 RUN apt-get update && apt-get install -y --no-install-recommends curl \
     && rm -rf /var/lib/apt/lists/*
 RUN groupadd -r appuser && useradd -r -g appuser appuser
-ARG SERVICE_NAME
 COPY --from=build /app/${SERVICE_NAME}/target/*.jar app.jar
 RUN chown appuser:appuser app.jar
 USER appuser
