@@ -1,10 +1,25 @@
+
+# ── Stage 1: Build ────────────────────────────
+FROM maven:3.9-eclipse-temurin-21 AS build
+
+WORKDIR /workspace
+
+COPY pom.xml ./
+COPY cart-service/pom.xml       cart-service/pom.xml
+COPY cart-service/src            cart-service/src
+COPY cart-service/mvnw           cart-service/mvnw
+COPY cart-service/mvnw.cmd       cart-service/mvnw.cmd
+
+RUN mvn -B -f pom.xml \
+        -pl cart-service -am \
+        -DskipTests \
+        clean package
+
 # ── Stage 2: Runtime ──────────────────────────
-# Alpine is smaller (~50 MB vs ~200 MB for jammy)
 FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /app
 
-# Alpine uses apk instead of apt-get
 RUN apk add --no-cache curl
 
 RUN addgroup -S appuser && adduser -S appuser -G appuser
