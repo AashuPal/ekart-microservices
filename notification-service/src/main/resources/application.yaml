@@ -38,6 +38,10 @@ management:
       enabled: false
   tracing:
     enabled: false
+  zipkin:
+    tracing:
+      export:
+        enabled: false
 app:
   email:
     from: ${MAIL_FROM}
