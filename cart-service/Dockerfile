@@ -1,18 +1,28 @@
-FROM maven:3.9-eclipse-temurin-21 AS build
-WORKDIR /app
-COPY . .
-RUN mvn -B -DskipTests clean package -q -pl cart-service -am
+# ── Stage 2: Runtime ──────────────────────────
+# Alpine is smaller (~50 MB vs ~200 MB for jammy)
+FROM eclipse-temurin:21-jre-alpine
 
-FROM eclipse-temurin:21-jre
 WORKDIR /app
-RUN apt-get update && apt-get install -y --no-install-recommends curl \
-    && rm -rf /var/lib/apt/lists/*
-RUN groupadd -r appuser && useradd -r -g appuser appuser
-COPY --from=build /app/cart-service/target/*.jar app.jar
+
+# Alpine uses apk instead of apt-get
+RUN apk add --no-cache curl
+
+RUN addgroup -S appuser && adduser -S appuser -G appuser
+
+COPY --from=build /workspace/cart-service/target/cart-service-*.jar app.jar
+
 RUN chown appuser:appuser app.jar
+
 USER appuser
-ENV JAVA_OPTS="-Xmx512m -Xms256m -XX:+UseG1GC -XX:+ExitOnOutOfMemoryError"
+
+ENV JAVA_OPTS="-Xms256m -Xmx512m \
+               -XX:+UseG1GC \
+               -XX:+ExitOnOutOfMemoryError \
+               -Djava.security.egd=file:/dev/./urandom"
+
 EXPOSE 8082
-HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-    CMD curl -f http://localhost:8082/actuator/health || exit 1
+
+HEALTHCHECK --interval=30s --timeout=10s --start-period=90s --retries=3 \
+    CMD curl -sf http://localhost:8082/actuator/health || exit 1
+
 ENTRYPOINT ["sh", "-c", "exec java $JAVA_OPTS -jar app.jar"]
