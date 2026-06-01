@@ -19,7 +19,7 @@ RUN addgroup -S appuser && adduser -S appuser -G appuser
 
 COPY --from=build /workspace/target/notification-service-*.jar app.jar
 
-RUN chown appuser:appuser app.jar
+RUN mkdir -p /app/logs && chown -R appuser:appuser /app
 
 USER appuser
 
