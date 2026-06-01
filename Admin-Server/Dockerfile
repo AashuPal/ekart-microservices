@@ -1,24 +1,36 @@
-# Build stage
-FROM maven:3.9-eclipse-temurin-21 AS builder
+# ── Stage 1: Build ────────────────────────────
+FROM maven:3.9-eclipse-temurin-21 AS build
 
-WORKDIR /app
-COPY . .
+WORKDIR /workspace
 
-# Build the current module (remove the -pl flag)
-RUN mvn -B -DskipTests clean package -q
+COPY pom.xml ./
+COPY src ./src
 
-# Runtime stage
-FROM eclipse-temurin:21-jre
+RUN mvn -B -f pom.xml -DskipTests clean package
 
-RUN groupadd -r appuser && useradd -r -g appuser appuser
-RUN apt-get update && apt-get install -y --no-install-recommends curl \
-    && rm -rf /var/lib/apt/lists/*
+# ── Stage 2: Runtime ──────────────────────────
+FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /app
 
-# Copy the built JAR - adjust path if needed
-COPY --from=builder /app/target/*.jar app.jar
+RUN apk add --no-cache curl
+
+RUN addgroup -S appuser && adduser -S appuser -G appuser
+
+COPY --from=build /workspace/target/Admin-Server-*.jar app.jar
+
+RUN chown appuser:appuser app.jar
 
 USER appuser
+
+ENV JAVA_OPTS="-Xms256m -Xmx512m \
+               -XX:+UseG1GC \
+               -XX:+ExitOnOutOfMemoryError \
+               -Djava.security.egd=file:/dev/./urandom"
+
 EXPOSE 1111
-ENTRYPOINT ["java", "-jar", "app.jar"]
+
+HEALTHCHECK --interval=30s --timeout=10s --start-period=90s --retries=3 \
+    CMD curl -sf http://localhost:1111/actuator/health || exit 1
+
+ENTRYPOINT ["sh", "-c", "exec java $JAVA_OPTS -jar app.jar"]
