@@ -1,33 +1,65 @@
-HELP.md
+# Maven
 target/
-.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+dependency-reduced-pom.xml
 
-### STS ###
-.apt_generated
+# IDE
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+.settings/
+.project
 .classpath
 .factorypath
-.project
-.settings
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Logs
+logs/
+*.log
+/app/logs/
+
+# Environment & Secrets
+*.env
+*.env.*
+!.env.example
+application-local.yml
+application-dev.yml
+*-secret.yml
+*.p12
+*.jks
+*.keystore
+*.truststore
+
+# Spring Boot Devtools
 .springBeans
-.sts4-cache
 
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
+# Build
 build/
-!**/src/main/**/build/
-!**/src/test/**/build/
+out/
+.gradle/
+!gradle/wrapper/gradle-wrapper.jar
 
-### VS Code ###
-.vscode/
+# Testing
+/test-output/
+/cucumber-html-reports/
+
+# Node (if any frontend part)
+node_modules/
