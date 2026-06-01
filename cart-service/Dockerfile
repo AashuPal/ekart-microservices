@@ -3,13 +3,9 @@ FROM maven:3.9-eclipse-temurin-21 AS build
 
 WORKDIR /workspace
 
-# Copy only cart-service — no root pom needed
 COPY pom.xml ./
 COPY src ./src
-COPY mvnw ./mvnw
-COPY mvnw.cmd ./mvnw.cmd
 
-# Build directly from cart-service's own pom.xml
 RUN mvn -B -f pom.xml -DskipTests clean package
 
 # ── Stage 2: Runtime ──────────────────────────
