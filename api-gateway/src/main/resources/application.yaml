@@ -19,42 +19,42 @@ spring:
       routes:
         # ==================== SWAGGER DOCS (must come first) ====================
         - id: auth-service-docs
-          uri: ${AUTH_SERVICE_URL:http://auth-service:8081}
+          uri: ${AUTH_SERVICE_URL:https://auth-service-d1ox.onrender.com}
           predicates:
             - Path=/auth/v3/api-docs
           filters:
             - RewritePath=/auth/v3/api-docs, /v3/api-docs
 
         - id: product-service-docs
-          uri: ${PRODUCT_SERVICE_URL:http://product-service:8083}
+          uri: ${PRODUCT_SERVICE_URL:https://product-service-sunc.onrender.com}
           predicates:
             - Path=/product-docs
           filters:
             - RewritePath=/product-docs, /v3/api-docs
 
         - id: cart-service-docs
-          uri: ${CART_SERVICE_URL:http://cart-service:8082}
+          uri: ${CART_SERVICE_URL:https://cart-service-bggm.onrender.com}
           predicates:
             - Path=/api/v1/carts/v3/api-docs
           filters:
             - RewritePath=/api/v1/carts/v3/api-docs, /v3/api-docs
 
         - id: order-service-docs
-          uri: ${ORDER_SERVICE_URL:http://order-service:8086}
+          uri: ${ORDER_SERVICE_URL:https://order-service-iy07.onrender.com}
           predicates:
             - Path=/api/v1/orders/v3/api-docs
           filters:
             - RewritePath=/api/v1/orders/v3/api-docs, /v3/api-docs
 
         - id: payment-service-docs
-          uri: ${PAYMENT_SERVICE_URL:http://payment-service:8084}
+          uri: ${PAYMENT_SERVICE_URL:https://payment-service-gzdq.onrender.com}
           predicates:
             - Path=/api/v1/payments/v3/api-docs
           filters:
             - RewritePath=/api/v1/payments/v3/api-docs, /v3/api-docs
 
         - id: notification-service-docs
-          uri: ${NOTIFICATION_SERVICE_URL:http://notification-service:8085}
+          uri: ${NOTIFICATION_SERVICE_URL:https://notification-service-0p94.onrender.com}
           predicates:
             - Path=/api/v1/email/v3/api-docs
           filters:
@@ -63,7 +63,7 @@ spring:
         # ==================== ACTUAL SERVICE ROUTES ====================
         # ---------- Auth Service ----------
         - id: auth-service
-          uri: ${AUTH_SERVICE_URL:http://auth-service:8081}
+          uri: ${AUTH_SERVICE_URL:https://auth-service-d1ox.onrender.com}
           predicates:
             - Path=/auth/**
           # If auth-service expects paths WITHOUT the /auth prefix, add:
@@ -72,7 +72,7 @@ spring:
 
         # ---------- Auth Service – Profile Addresses ----------
         - id: auth-service-addresses
-          uri: ${AUTH_SERVICE_URL:http://auth-service:8081}
+          uri: ${AUTH_SERVICE_URL:https://auth-service-d1ox.onrender.com}
           predicates:
             - Path=/api/auth/addresses/**
           filters:
@@ -81,13 +81,13 @@ spring:
 
         # ---------- Product Service ----------
         - id: product-service
-          uri: ${PRODUCT_SERVICE_URL:http://product-service:8083}
+          uri: ${PRODUCT_SERVICE_URL:https://product-service-sunc.onrender.com}
           predicates:
             - Path=/api/v1/products/**, /api/v1/categories/**, /api/v1/brands/**, /api/v1/search/**
 
         # ---------- Cart Service ----------
         - id: cart-service
-          uri: ${CART_SERVICE_URL:http://cart-service:8082}
+          uri: ${CART_SERVICE_URL:https://cart-service-bggm.onrender.com}
           predicates:
             - Path=/api/v1/carts/**
           filters:
@@ -95,7 +95,7 @@ spring:
 
         # ---------- Order Service ----------
         - id: order-service
-          uri: ${ORDER_SERVICE_URL:http://order-service:8086}
+          uri: ${ORDER_SERVICE_URL:https://order-service-iy07.onrender.com}
           predicates:
             - Path=/api/v1/orders/**
           filters:
@@ -103,7 +103,7 @@ spring:
 
         # ---------- Order Service – Shipping Addresses ----------
         - id: order-service-addresses
-          uri: ${ORDER_SERVICE_URL:http://order-service:8086}
+          uri: ${ORDER_SERVICE_URL:https://order-service-iy07.onrender.com}
           predicates:
             - Path=/api/addresses/**
           filters:
@@ -111,7 +111,7 @@ spring:
 
         # ---------- Payment Service ----------
         - id: payment-service
-          uri: ${PAYMENT_SERVICE_URL:http://payment-service:8084}
+          uri: ${PAYMENT_SERVICE_URL:https://payment-service-gzdq.onrender.com}
           predicates:
             - Path=/api/v1/payments/**
           filters:
@@ -119,7 +119,7 @@ spring:
 
         # ---------- Notification Service ----------
         - id: notification-service
-          uri: ${NOTIFICATION_SERVICE_URL:http://notification-service:8085}
+          uri: ${NOTIFICATION_SERVICE_URL:https://notification-service-0p94.onrender.com}
           predicates:
             - Path=/api/v1/email/**, /api/v1/send-welcome, /api/v1/verify-code,
               /api/v1/order-confirmation, /api/v1/forgot-password, /api/v1/verify-google,
@@ -144,12 +144,12 @@ spring:
   boot:
     admin:
       client:
-        url: ${SPRING_BOOT_ADMIN_URL:http://Admin-Server:1111/}
+        url: ${SPRING_BOOT_ADMIN_URL:https://admin-server-fbkb.onrender.com}
 
 eureka:
   client:
     service-url:
-      defaultZone: ${EUREKA_SERVER_URL:http://Service-Registry:8761/eureka/}
+      defaultZone: ${EUREKA_SERVER_URL:https://service-registry-ycvn.onrender.com/eureka/}
     register-with-eureka: true
     fetch-registry: true
 
@@ -192,3 +192,17 @@ management:
 logging:
   level:
     com.infy.ekart: DEBUG
+
+app:
+  keep-alive:
+    enabled: true
+    interval-ms: 600000   # 10 min — under Render's 15 min idle cutoff
+    services:
+      - https://auth-service-d1ox.onrender.com
+      - https://product-service-sunc.onrender.com
+      - https://cart-service-bggm.onrender.com
+      - https://order-service-iy07.onrender.com
+      - https://payment-service-gzdq.onrender.com
+      - https://notification-service-0p94.onrender.com
+      - https://service-registry-ycvn.onrender.com
+      - https://admin-server-fbkb.onrender.com
