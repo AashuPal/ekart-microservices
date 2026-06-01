@@ -1,19 +1,16 @@
-
 # ── Stage 1: Build ────────────────────────────
 FROM maven:3.9-eclipse-temurin-21 AS build
 
 WORKDIR /workspace
 
+# Copy only cart-service — no root pom needed
 COPY pom.xml ./
-COPY cart-service/pom.xml       cart-service/pom.xml
-COPY cart-service/src            cart-service/src
-COPY cart-service/mvnw           cart-service/mvnw
-COPY cart-service/mvnw.cmd       cart-service/mvnw.cmd
+COPY src ./src
+COPY mvnw ./mvnw
+COPY mvnw.cmd ./mvnw.cmd
 
-RUN mvn -B -f pom.xml \
-        -pl cart-service -am \
-        -DskipTests \
-        clean package
+# Build directly from cart-service's own pom.xml
+RUN mvn -B -f pom.xml -DskipTests clean package
 
 # ── Stage 2: Runtime ──────────────────────────
 FROM eclipse-temurin:21-jre-alpine
@@ -24,7 +21,7 @@ RUN apk add --no-cache curl
 
 RUN addgroup -S appuser && adduser -S appuser -G appuser
 
-COPY --from=build /workspace/cart-service/target/cart-service-*.jar app.jar
+COPY --from=build /workspace/target/cart-service-*.jar app.jar
 
 RUN chown appuser:appuser app.jar
 
