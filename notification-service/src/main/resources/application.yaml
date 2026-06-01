@@ -1,6 +1,5 @@
 server:
   port: ${PORT:8085}
-
 spring:
   application:
     name: notification-service
@@ -22,7 +21,6 @@ spring:
       client:
         url:
         - ${SPRING_BOOT_ADMIN_URL:http://Admin-Server:1111/}
-
 eureka:
   client:
     service-url:
@@ -35,13 +33,16 @@ management:
       exposure:
         include:
         - '*'
-
+  health:
+    mail:
+      enabled: false
+  tracing:
+    enabled: false
 app:
   email:
     from: ${MAIL_FROM}
     from-name: eKart Store
   base-url: ${APP_BASE_URL}
-
 springdoc:
   api-docs:
     path: /v3/api-docs
@@ -52,7 +53,6 @@ springdoc:
     operationsSorter: method
     tagsSorter: alpha
     try-it-out-enabled: true
-
 logging:
   file:
     path: logs/
