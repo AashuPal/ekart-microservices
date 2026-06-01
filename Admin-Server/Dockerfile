@@ -1,18 +1,24 @@
-FROM maven:3.9-eclipse-temurin-21 AS build
+# Build stage
+FROM maven:3.9-eclipse-temurin-21 AS builder
+
 WORKDIR /app
 COPY . .
-RUN mvn -B -DskipTests clean package -q -pl ./Admin-Server -am
 
+# Build the current module (remove the -pl flag)
+RUN mvn -B -DskipTests clean package -q
+
+# Runtime stage
 FROM eclipse-temurin:21-jre
-WORKDIR /app
+
+RUN groupadd -r appuser && useradd -r -g appuser appuser
 RUN apt-get update && apt-get install -y --no-install-recommends curl \
     && rm -rf /var/lib/apt/lists/*
-RUN groupadd -r appuser && useradd -r -g appuser appuser
-COPY --from=build /app/Admin-Server/target/*.jar app.jar
-RUN chown appuser:appuser app.jar
+
+WORKDIR /app
+
+# Copy the built JAR - adjust path if needed
+COPY --from=builder /app/target/*.jar app.jar
+
 USER appuser
-ENV JAVA_OPTS="-Xmx512m -Xms256m -XX:+UseG1GC -XX:+ExitOnOutOfMemoryError"
 EXPOSE 1111
-HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-    CMD curl -f http://localhost:1111/actuator/health || exit 1
-ENTRYPOINT ["sh", "-c", "exec java $JAVA_OPTS -jar app.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
