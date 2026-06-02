@@ -1,11 +1,9 @@
 # ===================== COMMON (all profiles) =====================
 server:
   port: ${PORT:8081}
-
 spring:
   application:
     name: auth-service
-  # ----- Database (same for all profiles) -----
   datasource:
     url: jdbc:mysql://gateway01.ap-northeast-1.prod.aws.tidbcloud.com:4000/ekart_auth_service?sslMode=VERIFY_IDENTITY&enabledTLSProtocols=TLSv1.2,TLSv1.3&serverTimezone=UTC
     username: ${DB_USERNAME}
@@ -22,21 +20,24 @@ spring:
         dialect: org.hibernate.dialect.MySQLDialect
   mail:
     host: smtp.gmail.com
-    port: 587
+    port: 465
     username: ${MAIL_USERNAME}
     password: ${MAIL_PASSWORD}
+    protocol: smtps
     properties:
       mail:
         smtp:
           auth: true
-          starttls:
+          ssl:
             enable: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
   autoconfigure:
     exclude:
       - org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
   main:
     allow-bean-definition-overriding: true
-
 management:
   endpoints:
     web:
@@ -44,25 +45,21 @@ management:
         include: "*"
   health:
     mail:
-      enabled: false          # disable mail health check globally
+      enabled: false
     redis:
       enabled: false
-
 jwt:
   secret: ${JWT_SECRET}
   expiration: 3600000
   refresh-expiration: 604800000
-
 google:
   client-id: ${GOOGLE_CLIENTID}
   client-secret: ${GOOGLE_CLIENTSE}
   redirect-uri: ${GOOGLE_CALLBACK_URI}
-
 twilio:
   account-sid: ${TWILLO_SID}
   auth-token: ${TWILLO_TOKEN}
   phone-number: ${TWILLO_NUMBER}
-
 app:
   admin:
     email: admin@ekart.com
@@ -79,7 +76,6 @@ app:
   email:
     verification-enabled: true
     reset-password-enabled: true
-
 logging:
   file:
     path: logs/
@@ -92,7 +88,6 @@ logging:
     root: INFO
     com.infy.ekart: DEBUG
     org.springframework.security: INFO
-
 springdoc:
   api-docs:
     path: /v3/api-docs
@@ -103,7 +98,6 @@ springdoc:
     operationsSorter: method
     tagsSorter: alpha
     try-it-out-enabled: true
-
 ---
 # ===================== LOCAL PROFILE =====================
 spring:
@@ -115,24 +109,21 @@ spring:
       host: localhost
       port: 6379
   zipkin:
-    enabled: false               # no Zipkin locally
+    enabled: false
   boot:
     admin:
       client:
         url: http://localhost:1111/
-
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
 app:
   base-url: http://localhost:5173
-
 logging:
   level:
     root: INFO
     com.infy.ekart: DEBUG
-
 ---
 # ===================== PROD PROFILE =====================
 spring:
@@ -149,15 +140,12 @@ spring:
     admin:
       client:
         url: ${SPRING_BOOT_ADMIN_URL:http://localhost:1111/}
-
 eureka:
   client:
     service-url:
       defaultZone: ${EUREKA_SERVER_URL:http://localhost:8761/eureka/}
-
 app:
   base-url: ${APP_BASE_URL:https://ekart-frontend-g20a.onrender.com}
-
 logging:
   level:
     root: INFO
