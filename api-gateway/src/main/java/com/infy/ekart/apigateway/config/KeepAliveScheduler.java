@@ -1,7 +1,6 @@
 package com.infy.ekart.apigateway.config;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -12,7 +11,6 @@ import reactor.core.publisher.Mono;
 import reactor.netty.http.client.HttpClient;
 
 import java.time.Duration;
-import java.util.List;
 
 @Slf4j
 @Component
@@ -20,15 +18,13 @@ import java.util.List;
 public class KeepAliveScheduler {
 
     private final WebClient webClient;
+    private final KeepAliveProperties properties;
 
-    @Value("${app.keep-alive.services}")
-    private List<String> serviceUrls;
-
-    public KeepAliveScheduler(WebClient.Builder builder) {
-        // Hard timeouts so a dead service never blocks the scheduler
+    public KeepAliveScheduler(WebClient.Builder builder, KeepAliveProperties properties) {
+        this.properties = properties;
         HttpClient httpClient = HttpClient.create()
-                .responseTimeout(Duration.ofSeconds(10))          // max wait for response
-                .option(io.netty.channel.ChannelOption.CONNECT_TIMEOUT_MILLIS, 8000); // max wait to connect
+                .responseTimeout(Duration.ofSeconds(10))
+                .option(io.netty.channel.ChannelOption.CONNECT_TIMEOUT_MILLIS, 8000);
 
         this.webClient = builder
                 .clientConnector(new ReactorClientHttpConnector(httpClient))
@@ -37,10 +33,10 @@ public class KeepAliveScheduler {
 
     @Scheduled(fixedRateString = "${app.keep-alive.interval-ms:600000}")
     public void pingAllServices() {
-        log.info("Keep-alive: pinging {} services...", serviceUrls.size());
+        log.info("Keep-alive: pinging {} services...", properties.getServices().size());
 
-        Flux.fromIterable(serviceUrls)
-                .flatMap(url -> ping(url + "/actuator/health"))   // all pings fire in parallel
+        Flux.fromIterable(properties.getServices())
+                .flatMap(url -> ping(url + "/actuator/health"))
                 .subscribe();
     }
 
@@ -53,11 +49,10 @@ public class KeepAliveScheduler {
                     } else {
                         log.warn("Keep-alive WARN [{}] {}", response.statusCode().value(), url);
                     }
-                    // consume body so connection is released properly
                     return response.bodyToMono(String.class).then();
                 })
-                .timeout(Duration.ofSeconds(15))                  // hard ceiling even if Netty hangs
+                .timeout(Duration.ofSeconds(15))
                 .doOnError(e -> log.warn("Keep-alive DOWN  [{}] {}", e.getClass().getSimpleName(), url))
-                .onErrorComplete();                               // never let one failure kill the Flux
+                .onErrorComplete();
     }
 }
