@@ -113,20 +113,6 @@
 			<artifactId>spring-boot-starter-data-redis</artifactId>
 		</dependency>
 
-		<!-- Tracing (Zipkin) -->
-		<dependency>
-			<groupId>io.micrometer</groupId>
-			<artifactId>micrometer-tracing-bridge-brave</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.zipkin.reporter2</groupId>
-			<artifactId>zipkin-reporter-brave</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.zipkin.reporter2</groupId>
-			<artifactId>zipkin-sender-urlconnection</artifactId>
-		</dependency>
-
 		<!-- Spring Boot Admin Client – version 3.3.5 (compatible with Boot
 		3.3.5) -->
 		<dependency>
