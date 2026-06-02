@@ -6,6 +6,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableDiscoveryClient
 @EnableScheduling
+@EnableConfigurationProperties
 @SpringBootApplication
 public class ApiGatewayApplication {
     public static void main(String[] args) {
