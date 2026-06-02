@@ -206,3 +206,4 @@ app:
       - https://notification-service-0p94.onrender.com
       - https://service-registry-ycvn.onrender.com
       - https://admin-server-fbkb.onrender.com
+      - http://api-gateway-wuk2.onrender.com
