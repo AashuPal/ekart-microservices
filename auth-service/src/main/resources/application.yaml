@@ -88,7 +88,7 @@ logging:
       max-history: 30
   level:
     root: INFO
-    com.infy.ekart: DEBUG
+    com.infy.ekart: INFO
     org.springframework.security: INFO
 springdoc:
   api-docs:
