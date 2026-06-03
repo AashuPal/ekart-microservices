@@ -8,13 +8,13 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
-//@Configuration
+@Configuration
 public class CorsConfig {
 
-    //@Bean
+    @Bean
     public CorsWebFilter corsWebFilter() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:5173","https://ekart-frontend-g20a.onrender.com"));
+        config.setAllowedOrigins(List.of("http://localhost:8080","https://api-gateway-wuk2.onrender.com"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE","PATCH", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
