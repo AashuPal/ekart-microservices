@@ -66,9 +66,6 @@ spring:
           uri: ${AUTH_SERVICE_URL:https://auth-service-d1ox.onrender.com}
           predicates:
             - Path=/auth/**
-          # If auth-service expects paths WITHOUT the /auth prefix, add:
-          # filters:
-          #   - RewritePath=/auth/(?<segment>.*), /$\{segment}
 
         # ---------- Auth Service – Profile Addresses ----------
         - id: auth-service-addresses
@@ -146,6 +143,9 @@ spring:
     admin:
       client:
         url: ${SPRING_BOOT_ADMIN_URL:https://admin-server-fbkb.onrender.com}
+        instance:
+          service-base-url: ${RENDER_EXTERNAL_URL:http://localhost:${server.port}}
+          management-base-url: ${RENDER_EXTERNAL_URL:http://localhost:${server.port}}
 
 eureka:
   client:
@@ -197,7 +197,7 @@ logging:
 app:
   keep-alive:
     enabled: true
-    interval-ms: 600000   # 10 min — under Render's 15 min idle cutoff
+    interval-ms: 600000
     services:
       - https://auth-service-d1ox.onrender.com
       - https://product-service-sunc.onrender.com
