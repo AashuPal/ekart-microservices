@@ -142,6 +142,9 @@ spring:
     admin:
       client:
         url: ${SPRING_BOOT_ADMIN_URL:http://localhost:1111/}
+        instance:
+          service-base-url: ${RENDER_EXTERNAL_URL:http://localhost:${server.port}}
+          management-base-url: ${RENDER_EXTERNAL_URL:http://localhost:${server.port}}
 eureka:
   client:
     service-url:
