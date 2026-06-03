@@ -19,9 +19,10 @@ spring:
   boot:
     admin:
       client:
-        url:
-        - ${SPRING_BOOT_ADMIN_URL:http://Admin-Server:1111/}
-eureka:
+        url: ${SPRING_BOOT_ADMIN_URL:http://Admin-Server:1111/}
+        instance:
+          service-base-url: ${RENDER_EXTERNAL_URL:http://localhost:${server.port}}
+          management-base-url: ${RENDER_EXTERNAL_URL:http://localhost:${server.port}}
   client:
     service-url:
       defaultZone: ${EUREKA_SERVER_URL:http://Service-Registry:8761/eureka/}
