@@ -1,32 +1,26 @@
 package com.infy.ekart.service;
 
+import jakarta.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.*;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-import java.util.*;
 
 @Service
 @Slf4j
 public class EmailService {
 
-    private final RestTemplate restTemplate;
-
-    @Value("${brevo.api-key}")
-    private String apiKey;
-
-    @Value("${brevo.api-url:https://api.brevo.com/v3/smtp/email}")
-    private String apiUrl;
+    private final JavaMailSender mailSender;
 
     @Value("${app.base-url}")
     private String baseUrl;
 
-    @Value("${spring.mail.username:noreply@ekart.com}")   // verified sender email
+    @Value("${spring.mail.username}")
     private String fromEmail;
 
-    public EmailService(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
+    public EmailService(JavaMailSender mailSender) {
+        this.mailSender = mailSender;
     }
 
     public void sendVerificationLink(String to, String name, String token) {
@@ -47,48 +41,32 @@ public class EmailService {
 
     public void sendPasswordResetEmail(String to, String resetToken) {
         String link = baseUrl + "/reset-password?token=" + resetToken;
-        String html = "<p>Click <a href='" + link + "'>here</a> to reset your password.</p>";
+        String html = String.format("""
+            <div style="font-family: Arial, sans-serif; padding: 20px;">
+                <h2>Reset your eKart Password</h2>
+                <p>Click the button below to reset your password:</p>
+                <a href="%s" style="display: inline-block; padding: 12px 24px; background: #dc2626; color: white; text-decoration: none; border-radius: 8px; font-weight: bold;">
+                    Reset Password
+                </a>
+                <p style="margin-top: 20px; color: #666;">Or copy this link: %s</p>
+                <p>This link expires in 10 minutes. If you did not request this, ignore this email.</p>
+            </div>
+            """, link, link);
         sendHtml(to, "Reset your eKart password", html);
     }
 
     private void sendHtml(String to, String subject, String htmlContent) {
         try {
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            headers.set("api-key", apiKey);   // Brevo API key header
-
-            Map<String, Object> body = new HashMap<>();
-            
-            // Sender
-            Map<String, String> sender = new HashMap<>();
-            sender.put("email", fromEmail);
-            sender.put("name", "eKart");
-            body.put("sender", sender);
-
-            // Recipient(s)
-            List<Map<String, String>> toList = new ArrayList<>();
-            Map<String, String> recipient = new HashMap<>();
-            recipient.put("email", to);
-            toList.add(recipient);
-            body.put("to", toList);
-
-            body.put("subject", subject);
-            body.put("htmlContent", htmlContent);
-
-            ResponseEntity<Map> response = restTemplate.postForEntity(
-                    apiUrl,
-                    new HttpEntity<>(body, headers),
-                    Map.class
-            );
-
-            if (response.getStatusCode() == HttpStatus.CREATED || response.getStatusCode() == HttpStatus.OK) {
-                log.info("Email sent successfully to {}", to);
-            } else {
-                log.error("Brevo API returned non-success: {} - {}", response.getStatusCode(), response.getBody());
-                throw new RuntimeException("Email sending failed");
-            }
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+            helper.setFrom(fromEmail, "eKart");
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setText(htmlContent, true);
+            mailSender.send(message);
+            log.info("Email sent successfully to {}", to);
         } catch (Exception e) {
-            log.error("Failed to send email via Brevo API: {}", e.getMessage());
+            log.error("Failed to send email: {}", e.getMessage());
             throw new RuntimeException("Could not send email, please try again later.");
         }
     }
