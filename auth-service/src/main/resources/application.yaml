@@ -29,9 +29,9 @@ spring:
           auth: true
           starttls:
             enable: true
-          connectiontimeout: 5000
+          connectiontimeout: 10000
           timeout: 5000
-          writetimeout: 5000
+          writetimeout: 10000
   autoconfigure:
     exclude:
       - org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
