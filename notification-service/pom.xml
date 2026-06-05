@@ -90,6 +90,18 @@
 			<artifactId>spring-boot-starter-actuator-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+    <groupId>com.sendgrid</groupId>
+    <artifactId>sendgrid-java</artifactId>
+    <version>4.10.1</version>
+</dependency>
+
+<!-- Jakarta Annotation (for @PostConstruct) -->
+<dependency>
+    <groupId>jakarta.annotation</groupId>
+    <artifactId>jakarta.annotation-api</artifactId>
+    <version>2.1.1</version>
+</dependency>
 	</dependencies>
 
 	<dependencyManagement>
@@ -108,19 +120,6 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
-			<!-- SendGrid -->
-<dependency>
-    <groupId>com.sendgrid</groupId>
-    <artifactId>sendgrid-java</artifactId>
-    <version>4.10.1</version>
-</dependency>
-
-<!-- Jakarta Annotation (for @PostConstruct) -->
-<dependency>
-    <groupId>jakarta.annotation</groupId>
-    <artifactId>jakarta.annotation-api</artifactId>
-    <version>2.1.1</version>
-</dependency>
 		</dependencies>
 	</dependencyManagement>
 
