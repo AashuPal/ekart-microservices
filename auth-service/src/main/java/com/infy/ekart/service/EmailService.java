@@ -14,8 +14,6 @@ import java.io.IOException;
 @Slf4j
 public class EmailService {
 
-    private final SendGrid sendGrid;
-
     @Value("${app.base-url}")
     private String baseUrl;
 
@@ -27,11 +25,6 @@ public class EmailService {
     
     @Value("${sendgrid.api-key}")
     private String apiKey;
-
-    // Remove the constructor and create SendGrid when needed
-    private SendGrid getSendGrid() {
-        return new SendGrid(apiKey);
-    }
 
     public void sendVerificationLink(String to, String name, String token) {
         String link = baseUrl + "/verify?token=" + token;
@@ -67,6 +60,9 @@ public class EmailService {
 
     private void sendHtml(String to, String subject, String htmlContent) {
         try {
+            // Create SendGrid instance directly with API key
+            SendGrid sendGrid = new SendGrid(apiKey);
+            
             Email from = new Email(fromEmail, fromName);
             Email recipient = new Email(to);
             Content content = new Content("text/html", htmlContent);
@@ -77,7 +73,7 @@ public class EmailService {
             request.setEndpoint("mail/send");
             request.setBody(mail.build());
             
-            Response response = getSendGrid().api(request);
+            Response response = sendGrid.api(request);
             
             if (response.getStatusCode() >= 200 && response.getStatusCode() < 300) {
                 log.info("Email sent successfully to {} - Status code: {}", to, response.getStatusCode());
@@ -91,4 +87,4 @@ public class EmailService {
             throw new RuntimeException("Could not send email, please try again later.", e);
         }
     }
-                         }
+                }
