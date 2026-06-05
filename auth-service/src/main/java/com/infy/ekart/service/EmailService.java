@@ -24,9 +24,13 @@ public class EmailService {
 
     @Value("${sendgrid.from-name}")
     private String fromName;
+    
+    @Value("${sendgrid.api-key}")
+    private String apiKey;
 
-    public EmailService(SendGrid sendGrid) {
-        this.sendGrid = sendGrid;
+    // Remove the constructor and create SendGrid when needed
+    private SendGrid getSendGrid() {
+        return new SendGrid(apiKey);
     }
 
     public void sendVerificationLink(String to, String name, String token) {
@@ -73,7 +77,7 @@ public class EmailService {
             request.setEndpoint("mail/send");
             request.setBody(mail.build());
             
-            Response response = sendGrid.api(request);
+            Response response = getSendGrid().api(request);
             
             if (response.getStatusCode() >= 200 && response.getStatusCode() < 300) {
                 log.info("Email sent successfully to {} - Status code: {}", to, response.getStatusCode());
@@ -87,4 +91,4 @@ public class EmailService {
             throw new RuntimeException("Could not send email, please try again later.", e);
         }
     }
-}
+                         }
