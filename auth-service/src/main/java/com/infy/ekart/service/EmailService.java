@@ -1,26 +1,32 @@
 package com.infy.ekart.service;
 
-import jakarta.mail.internet.MimeMessage;
+import com.sendgrid.*;
+import com.sendgrid.helpers.mail.Mail;
+import com.sendgrid.helpers.mail.objects.Content;
+import com.sendgrid.helpers.mail.objects.Email;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
 
 @Service
 @Slf4j
 public class EmailService {
 
-    private final JavaMailSender mailSender;
+    private final SendGrid sendGrid;
 
     @Value("${app.base-url}")
     private String baseUrl;
 
-    @Value("${spring.mail.username}")
+    @Value("${sendgrid.from-email}")
     private String fromEmail;
 
-    public EmailService(JavaMailSender mailSender) {
-        this.mailSender = mailSender;
+    @Value("${sendgrid.from-name}")
+    private String fromName;
+
+    public EmailService(SendGrid sendGrid) {
+        this.sendGrid = sendGrid;
     }
 
     public void sendVerificationLink(String to, String name, String token) {
@@ -57,17 +63,28 @@ public class EmailService {
 
     private void sendHtml(String to, String subject, String htmlContent) {
         try {
-            MimeMessage message = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-            helper.setFrom(fromEmail, "eKart");
-            helper.setTo(to);
-            helper.setSubject(subject);
-            helper.setText(htmlContent, true);
-            mailSender.send(message);
-            log.info("Email sent successfully to {}", to);
-        } catch (Exception e) {
-            log.error("Failed to send email: {}", e.getMessage());
-            throw new RuntimeException("Could not send email, please try again later.");
+            Email from = new Email(fromEmail, fromName);
+            Email recipient = new Email(to);
+            Content content = new Content("text/html", htmlContent);
+            Mail mail = new Mail(from, subject, recipient, content);
+            
+            Request request = new Request();
+            request.setMethod(Method.POST);
+            request.setEndpoint("mail/send");
+            request.setBody(mail.build());
+            
+            Response response = sendGrid.api(request);
+            
+            if (response.getStatusCode() >= 200 && response.getStatusCode() < 300) {
+                log.info("Email sent successfully to {} - Status code: {}", to, response.getStatusCode());
+            } else {
+                log.error("Failed to send email to {} - Status: {}, Body: {}", 
+                    to, response.getStatusCode(), response.getBody());
+                throw new RuntimeException("Failed to send email. Status code: " + response.getStatusCode());
+            }
+        } catch (IOException e) {
+            log.error("Failed to send email to {}: {}", to, e.getMessage());
+            throw new RuntimeException("Could not send email, please try again later.", e);
         }
     }
 }
