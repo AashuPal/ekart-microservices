@@ -129,7 +129,7 @@ spring:
           '[/**]':
             allowedOrigins:
               - "https://ekart-frontend-g20a.onrender.com"
-              - "https://ekartms.netlify.app/"
+              - "https://ekartms.netlify.app"
               - "http://localhost:5173"
             allowedMethods: "*"
             allowedHeaders: "*"
