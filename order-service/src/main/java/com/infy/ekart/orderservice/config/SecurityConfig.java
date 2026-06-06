@@ -25,7 +25,7 @@ public class SecurityConfig {
                 // Allow actuator
                 .requestMatchers("/actuator/health").permitAll()
                 // All other requests
-                .anyRequest().permitAll()
+                //.anyRequest().permitAll()
             );
         return http.build();
     }
