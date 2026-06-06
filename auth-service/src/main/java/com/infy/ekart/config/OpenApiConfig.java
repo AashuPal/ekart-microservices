@@ -56,7 +56,7 @@ public class OpenApiConfig {
                                 .url("http://localhost:8081")
                                 .description("Local Development Server"),
                         new Server()
-                                .url("https://api-gateway-wuk2.onrender.com")
+                                .url("https://api-gateway-p817.onrender.com")
                                 .description("Docker Internal (Eureka Service Name)")
                 ))
 
