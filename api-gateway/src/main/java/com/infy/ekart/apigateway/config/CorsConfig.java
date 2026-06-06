@@ -14,7 +14,7 @@ public class CorsConfig {
     @Bean
     public CorsWebFilter corsWebFilter() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:8080","https://ekart-frontend-g20a.onrender.com","http://localhost:5173"));
+        config.setAllowedOrigins(List.of("http://localhost:8080","https://ekartms.netlify.app/","http://localhost:5173"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE","PATCH", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
