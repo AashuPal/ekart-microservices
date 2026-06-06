@@ -90,9 +90,9 @@ app:
     reservation-timeout-minutes: 15
   client:
     inventory-service:
-      url: http://api-gateway-wuk2.onrender.com/api/v1/products
+      url: ${RENDER_EXTERNAL_URL}/api/v1/products
     order-service:
-      url: http://api-gateway-wuk2.onrender.com/api/v1/orders
+      url: ${RENDER_EXTERNAL_URL}/api/v1/orders
   payment:
     tax-rate: 0.18
     free-shipping-threshold: 500
