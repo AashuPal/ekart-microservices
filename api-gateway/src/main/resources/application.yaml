@@ -199,12 +199,12 @@ app:
     enabled: true
     interval-ms: 600000
     services:
-      - https://auth-service-d1ox.onrender.com
-      - https://product-service-sunc.onrender.com
-      - https://cart-service-bggm.onrender.com
-      - https://order-service-iy07.onrender.com
-      - https://payment-service-gzdq.onrender.com
-      - https://notification-service-0p94.onrender.com
-      - https://service-registry-ycvn.onrender.com
-      - https://admin-server-fbkb.onrender.com
-      - https://api-gateway-wuk2.onrender.com
+      - ${AUTH_SERVICE_URL}
+      - ${CART_SERVICE_URL}
+      - ${EUREKA_SERVER_URL}
+      - ${NOTIFICATION_SERVICE_URL}
+      - ${ORDER_SERVICE_URL}
+      - ${PAYMENT_SERVICE_URL}
+      - ${PRODUCT_SERVICE_URL}
+      - ${SPRING_BOOT_ADMIN_URL}
+      - ${RENDER_EXTERNAL_URL}
