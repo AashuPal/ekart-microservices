@@ -25,14 +25,8 @@ public class PreFlightFilter extends AbstractGatewayFilterFactory<PreFlightFilte
             String method = exchange.getRequest().getMethod().name();
             log.debug("Auth filter checking path: {} {}", method, path);
 
-             if ("OPTIONS".equalsIgnoreCase(method)) {
-                log.debug("OPTIONS preflight – forwarding: {}", path);
-                return chain.filter(exchange);
-            }
-
             // 1. Completely public paths – no token needed
             if (path.startsWith("/auth/") ||
-                path.startsWith("/api/v1/email/") || 
                 path.startsWith("/swagger-ui") ||
                 path.startsWith("/v3/api-docs") ||
                 path.startsWith("/webjars")) {
