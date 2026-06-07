@@ -24,7 +24,7 @@ public class SwaggerConfig {
                     .email("support@ekart.com")))
             .servers(List.of(
                 new Server().url("http://localhost:8085").description("Local Server"),
-                new Server().url("https://api-gateway-wuk2.onrender.com").description("Local Server")
+                new Server().url("https://api-gateway-p817.onrender.com").description("Local Server")
             ));
     }
 }
