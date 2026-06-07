@@ -27,6 +27,7 @@ public class PreFlightFilter extends AbstractGatewayFilterFactory<PreFlightFilte
 
             // 1. Completely public paths – no token needed
             if (path.startsWith("/auth/") ||
+                path.startsWith("/api/v1/email/") || 
                 path.startsWith("/swagger-ui") ||
                 path.startsWith("/v3/api-docs") ||
                 path.startsWith("/webjars")) {
